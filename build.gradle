@@ -1,0 +1,68 @@
+buildscript {
+    repositories {
+        //本地maven
+        mavenLocal()
+        maven { url "~/.m2/repository/" }
+        jcenter()
+    }
+    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
+    }
+
+}
+plugins {
+    id "org.springframework.boot" version "2.0.3.RELEASE"
+}
+
+group = "com.shuda"
+version = "0.0.1"
+
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://mvnrepository.com/artifact" }
+    }
+}
+
+
+
+apply plugin: 'idea'
+apply plugin: 'java'
+
+//编译版本
+sourceCompatibility = 1.8
+//打包版本
+targetCompatibility = 1.8
+
+// 自定义变量
+ext {
+    jjwtVersion = "0.9.0"
+    springVersion = "2.0.0.RELEASE"
+    lombokVersion = "1.16.18"
+    mysqlVersion = "6.0.6"
+    animaVersion = "0.2.3"
+    shiroVersion = "shiro-spring:1.4.0"
+}
+
+sourceSets {
+    main.java.srcDir "src/main/java"
+    main.resources.srcDir "src/main/resources"
+    test.java.srcDir "src/test/java"
+    test.resources.srcDir "src/test/resources"
+}
+
+dependencies {
+    compile("org.projectlombok:lombok:${lombokVersion}")
+
+    compile("org.springframework.boot:spring-boot-starter-web:${springVersion}")
+    // 数据库
+    compile ("io.github.biezhi:anima:${animaVersion}")
+    // shiro权限框架
+    compile("org.apache.shiro:${shiroVersion}")
+
+    runtime("mysql:mysql-connector-java:${mysqlVersion}")
+
+
+}
