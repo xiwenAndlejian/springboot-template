@@ -5,8 +5,8 @@ springboot框架模板，用于快速搭建一个后台 `REST` 框架的模板�
 
 #### 软件架构
 1. Spring Boot(Spring + SpringMVC)
-2. shiro：权限管理
-3. anima：数据层
+2. [shiro](https://shiro.apache.org/documentation.html)：Apache 的安全框架
+3. [anima](https://github.com/biezhi/anima)：国人开发的轻量级数据库操作库
 
 待补充...
 
@@ -16,5 +16,9 @@ springboot框架模板，用于快速搭建一个后台 `REST` 框架的模板�
 待补充...
 
 #### 使用说明
+
+待补充...
+
+#### 相关开发博客
 
 待补充...
