@@ -1,4 +1,4 @@
-package com.shuda.utils;
+package com.dekuofa.utils;
 
 import java.time.Instant;
 

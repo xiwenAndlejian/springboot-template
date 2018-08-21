@@ -1,4 +1,4 @@
-package com.shuda.constant;
+package com.dekuofa.constant;
 
 /**
  * @author ganxiang <br>

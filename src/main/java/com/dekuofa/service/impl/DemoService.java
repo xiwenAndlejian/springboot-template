@@ -1,7 +1,6 @@
-package com.shuda.service;
+package com.dekuofa.service.impl;
 
-import com.shuda.model.entity.User;
-import io.github.biezhi.anima.Anima;
+import com.dekuofa.model.entity.User;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

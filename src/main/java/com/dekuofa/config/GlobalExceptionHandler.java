@@ -1,6 +1,6 @@
-package com.shuda.config;
+package com.dekuofa.config;
 
-import com.shuda.model.response.RestResponse;
+import com.dekuofa.model.response.RestResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

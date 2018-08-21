@@ -1,4 +1,4 @@
-package com.shuda.config;
+package com.dekuofa.config;
 
 import io.github.biezhi.anima.Anima;
 import org.springframework.beans.factory.annotation.Autowired;

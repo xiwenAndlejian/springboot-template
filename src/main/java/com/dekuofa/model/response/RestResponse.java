@@ -1,6 +1,6 @@
-package com.shuda.model.response;
+package com.dekuofa.model.response;
 
-import com.shuda.utils.DateUtil;
+import com.dekuofa.utils.DateUtil;
 import lombok.Data;
 
 /**
