@@ -6,12 +6,13 @@ buildscript {
         jcenter()
     }
     dependencies {
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
+        classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
     }
 
 }
+
 plugins {
-    id "org.springframework.boot" version "2.0.3.RELEASE"
+    id "org.springframework.boot" version "2.0.4.RELEASE"
 }
 
 group = "com.shuda"
@@ -49,20 +50,27 @@ ext {
 sourceSets {
     main.java.srcDir "src/main/java"
     main.resources.srcDir "src/main/resources"
-    test.java.srcDir "src/test/java"
-    test.resources.srcDir "src/test/resources"
+//    test.java.srcDir "src/test/java"
+//    test.resources.srcDir "src/test/resources"
 }
 
 dependencies {
     compile("org.projectlombok:lombok:${lombokVersion}")
 
     compile("org.springframework.boot:spring-boot-starter-web:${springVersion}")
+    compile("org.springframework.boot:spring-boot-starter-aop:${springVersion}")
+    // 热部署
+    compile("org.springframework.boot:spring-boot-devtools:${springVersion}")
     // 数据库
     compile ("io.github.biezhi:anima:${animaVersion}")
     // shiro权限框架
     compile("org.apache.shiro:${shiroVersion}")
+    compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
+    compile("com.auth0:java-jwt:3.3.0")
 
     runtime("mysql:mysql-connector-java:${mysqlVersion}")
 
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springVersion}")
 
 }
