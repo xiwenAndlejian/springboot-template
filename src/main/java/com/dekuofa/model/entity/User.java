@@ -35,7 +35,7 @@ public class User extends Model {
 
 
     @Ignore
-    private List<Role>       roles;
+    private List<SysRole>    sysRoles;
     @Ignore
     private List<Permission> permissions;
 

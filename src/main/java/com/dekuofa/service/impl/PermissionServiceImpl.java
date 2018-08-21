@@ -1,7 +1,7 @@
 package com.dekuofa.service.impl;
 
 import com.dekuofa.model.entity.Permission;
-import com.dekuofa.model.entity.Role;
+import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.service.PermissionService;
 import org.springframework.stereotype.Service;
 
@@ -18,24 +18,26 @@ import static io.github.biezhi.anima.Anima.select;
 @Service
 public class PermissionServiceImpl implements PermissionService {
 
-    public Set<Permission> getPermissions(List<Role> roles) {
-        if (roles == null || roles.isEmpty()) {
+    @Override
+    public Set<Permission> getPermissions(Collection<SysRole> sysRoles) {
+        if (sysRoles == null || sysRoles.isEmpty()) {
             return new HashSet<>();
         }
 
-        String ids = ids2String(roles);
+        String ids = ids2String(sysRoles);
         List<Permission> permissions = select()
                 .bySQL(Permission.class, "select p.id, p.permission  from role_permission rp\n" +
                         "left join permission p\n" +
                         "    on rp.permission_id = p.id\n" +
                         "where rp.role_id in (?)", ids).all();
-        Set<Permission> permissionSet = new HashSet<>(permissions);
-        return permissionSet;
+
+        return new HashSet<>(permissions);
     }
 
-    public Set<String> getPermissionsName(List<Role> roles) {
-        Set<Permission> permissions = getPermissions(roles);
+    public Set<String> getPermissionsName(Collection<SysRole> sysRoles) {
+        Set<Permission> permissions = getPermissions(sysRoles);
         return permissions.stream()
-                .map(Permission::getPermission).collect(Collectors.toSet());
+                .map(Permission::getName).collect(Collectors.toSet());
     }
+
 }

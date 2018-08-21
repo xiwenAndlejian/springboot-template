@@ -1,6 +1,7 @@
 package com.dekuofa.model.entity;
 
 import io.github.biezhi.anima.Model;
+import io.github.biezhi.anima.annotation.Table;
 import lombok.*;
 
 
@@ -11,7 +12,8 @@ import lombok.*;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class Role extends Model {
+@Table(name = "t_role")
+public class SysRole extends Model {
     private int    id;
     private String name;
     private String desc;

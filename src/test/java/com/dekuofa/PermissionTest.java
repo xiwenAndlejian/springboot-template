@@ -1,16 +1,12 @@
 package com.dekuofa;
 
 import com.dekuofa.model.entity.Permission;
-import com.dekuofa.model.entity.Role;
 import io.github.biezhi.anima.Anima;
-import io.github.biezhi.anima.core.Joins;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.dekuofa.utils.CommonKit.ids2String;
 import static io.github.biezhi.anima.Anima.select;
@@ -36,7 +32,7 @@ public class PermissionTest {
                 "left join permission p\n" +
                 "    on rp.permission_id = p.id\n" +
                 "where rp.role_id in (?)", ids).all();
-        permissions.forEach(x -> log.info(x.getPermission()));
+        permissions.forEach(x -> log.info(x.getName()));
     }
 
     @Test

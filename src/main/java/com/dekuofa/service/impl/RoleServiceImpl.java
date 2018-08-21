@@ -1,13 +1,13 @@
 package com.dekuofa.service.impl;
 
 
-import com.dekuofa.model.entity.Role;
+import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,20 +21,14 @@ import static io.github.biezhi.anima.Anima.select;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    public List<Role> getRoles(User user) {
-        if (user == null) {
-            return new ArrayList<>();
-        }
-        List<Role> roles = select()
-                .bySQL(Role.class, "select r.id, r.name from roles r\n" +
+    @Override
+    public Set<SysRole> getRoles(int userId) {
+        List<SysRole> sysRoles = select()
+                .bySQL(SysRole.class, "select r.id, r.name from roles r\n" +
                         "right join user_role ur\n" +
                         "    on r.id = ur.role_id\n" +
-                        "where ur.user_id = ?", user.getId()).all();
-        return roles;
-    }
+                        "where ur.user_id = ?", userId).all();
 
-    public Set<String> getRoleNames(User user) {
-        List<Role> roles = getRoles(user);
-        return roles.stream().map(Role::getName).collect(Collectors.toSet());
+        return new HashSet<>(sysRoles);
     }
 }

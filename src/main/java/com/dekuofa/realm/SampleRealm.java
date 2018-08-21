@@ -1,11 +1,13 @@
 package com.dekuofa.realm;
 
 
+import com.dekuofa.model.entity.Permission;
 import com.dekuofa.model.entity.User;
-import com.dekuofa.model.entity.Role;
-import com.dekuofa.service.impl.PermissionServiceImpl;
-import com.dekuofa.service.impl.RoleServiceImpl;
-import com.dekuofa.service.impl.UserServiceImpl;
+import com.dekuofa.model.entity.SysRole;
+import com.dekuofa.service.PermissionService;
+import com.dekuofa.service.RoleService;
+import com.dekuofa.service.UserService;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
@@ -17,7 +19,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,15 +29,21 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
+@NoArgsConstructor
 public class SampleRealm extends AuthorizingRealm {
 
-    @Autowired
-    private UserServiceImpl       userService;
-    @Autowired
-    private RoleServiceImpl       roleService;
-    @Autowired
-    private PermissionServiceImpl permissionService;
+    private UserService       userService;
+    private RoleService       roleService;
+    private PermissionService permissionService;
 
+    @Autowired
+    public SampleRealm(UserService userService,
+                       RoleService roleService,
+                       PermissionService permissionService) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.permissionService = permissionService;
+    }
 
     @Setter
     private String username;
@@ -62,7 +70,7 @@ public class SampleRealm extends AuthorizingRealm {
         }
 
         // 根据用户名获取用户信息
-        User   user     = userService.getUser(username);
+        User   user     = userService.findByUsername(username);
         String password = user.getPassword();
         // todo 加盐加密
 //        String salt     = null;
@@ -84,28 +92,26 @@ public class SampleRealm extends AuthorizingRealm {
         }
 
         String username = (String) getAvailablePrincipal(principals);
-        User   user     = userService.getUser(username);
+        User   user     = userService.findByUsername(username);
 
-        List<Role>  roles       = getRoleForUser(user);
-        Set<String> permissions = getPermissions(roles);
-        Set<String> roleNames   = getRolesName(roles);
+        Set<SysRole>    sysRoles    = roleService.getRoles(user.getId());
+        Set<Permission> permissions = permissionService.getPermissions(sysRoles);
+
+        Set<String> roleNames       = getRolesName(sysRoles);
+        Set<String> permissionNames = getPermissionName(permissions);
 
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
-        info.setStringPermissions(permissions);
+        info.setStringPermissions(permissionNames);
         return info;
     }
 
-    private List<Role> getRoleForUser(User user) {
-        return roleService.getRoles(user);
+    private Set<String> getRolesName(Collection<SysRole> sysRoles) {
+        return sysRoles.stream().map(SysRole::getName).collect(Collectors.toSet());
     }
 
-    private Set<String> getPermissions(List<Role> roles) {
-        return permissionService.getPermissionsName(roles);
-    }
-
-    private Set<String> getRolesName(List<Role> roles) {
-        return roles.stream().map(Role::getName).collect(Collectors.toSet());
+    private Set<String> getPermissionName(Collection<Permission> permissions) {
+        return permissions.stream().map(Permission::getName).collect(Collectors.toSet());
     }
 
 }
