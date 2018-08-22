@@ -1,6 +1,10 @@
 package com.dekuofa.service;
 
+import com.dekuofa.model.BaseUserInfo;
 import com.dekuofa.model.entity.User;
+import com.dekuofa.model.param.PageParam;
+import io.github.biezhi.anima.page.Page;
+
 
 /**
  * @author gx <br>
@@ -8,4 +12,11 @@ import com.dekuofa.model.entity.User;
  */
 public interface UserService {
     User findByUsername(String username);
+
+    int addUser(User user, BaseUserInfo userInfo);
+
+    boolean isExist(String username);
+
+    Page<User> query(String username, PageParam pageParam);
+
 }

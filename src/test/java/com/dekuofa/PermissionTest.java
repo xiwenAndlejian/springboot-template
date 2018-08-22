@@ -25,14 +25,14 @@ public class PermissionTest {
 
     @Test
     public void select_permissions() {
-        List<Integer> roles = Arrays.asList(1, 2);
-        String ids = ids2String(roles);
-        List<Permission> permissions = select()
-                .bySQL(Permission.class, "select p.id, p.permission  from role_permission rp\n" +
-                "left join permission p\n" +
-                "    on rp.permission_id = p.id\n" +
-                "where rp.role_id in (?)", ids).all();
-        permissions.forEach(x -> log.info(x.getName()));
+//        List<Integer> roles = Arrays.asList(1, 2);
+//        String ids = ids2String(roles);
+//        List<Permission> permissions = select()
+//                .bySQL(Permission.class, "select p.id, p.permission  from role_permission rp\n" +
+//                "left join permission p\n" +
+//                "    on rp.permission_id = p.id\n" +
+//                "where rp.role_id in (?)", ids).all();
+//        permissions.forEach(x -> log.info(x.getName()));
     }
 
     @Test

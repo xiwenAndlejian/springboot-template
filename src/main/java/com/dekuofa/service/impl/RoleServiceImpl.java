@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Set<SysRole> getRoles(int userId) {
         List<SysRole> sysRoles = select()
-                .bySQL(SysRole.class, "select r.id, r.name from roles r\n" +
+                .bySQL(SysRole.class, "select r.id, r.name from t_role r\n" +
                         "right join user_role ur\n" +
                         "    on r.id = ur.role_id\n" +
                         "where ur.user_id = ?", userId).all();

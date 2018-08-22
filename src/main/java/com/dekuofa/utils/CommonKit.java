@@ -13,12 +13,8 @@ public class CommonKit {
      * 根据id列表获取用于 sql in 查询的字符串<br/>
      * eg : input [1, 2, 3, 4, 5] return 1,2,3,4,5
      * 如果传入数组为 null 或者 长度为空 则返回 ""
-     *
-     * @param ids
-     * @param <ID>
-     * @return
      */
-    public static  <ID> String ids2String(Collection<ID> ids) {
+    public static <ID> String ids2String(Collection<ID> ids) {
         if (ids == null || ids.size() == 0) {
             return "";
         }
@@ -28,4 +24,5 @@ public class CommonKit {
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.dekuofa.model.entity;
 
+import com.dekuofa.model.BaseEntity;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Table;
 import lombok.Data;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Table(name = "t_permission")
-public class Permission extends Model {
+public class Permission extends Model implements BaseEntity {
     private int    id;
     private String name;
     private String url;

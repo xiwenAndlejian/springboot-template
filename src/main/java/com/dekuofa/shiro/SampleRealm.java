@@ -1,4 +1,4 @@
-package com.dekuofa.realm;
+package com.dekuofa.shiro;
 
 
 import com.dekuofa.model.entity.Permission;
