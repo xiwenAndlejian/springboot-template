@@ -16,6 +16,7 @@ import java.util.List;
 
 import static io.github.biezhi.anima.Anima.save;
 import static io.github.biezhi.anima.Anima.select;
+import static io.github.biezhi.anima.Anima.update;
 
 /**
  * @author gx <br>
@@ -68,11 +69,19 @@ public class UserServiceImpl implements UserService {
                     .page(pageParam.getPage(), pageParam.getLimit());
         } else {
             users = select().from(User.class)
-                    .like("%" + username + "%")
+                    .like("user_name" ,"%" + username + "%")
                     .order("create_time", OrderBy.DESC)
                     .page(pageParam.getPage(), pageParam.getLimit());
         }
 
         return users;
+    }
+
+    @Override
+    public void login(int userId, String ip) {
+        update().from(User.class)
+                .set(User::getLastLoginIp, "ip")
+                .set(User::getLastLoginTime, DateUtil.newUnix())
+                .where(User::getId).eq(2).execute();
     }
 }

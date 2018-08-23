@@ -19,4 +19,6 @@ public interface UserService {
 
     Page<User> query(String username, PageParam pageParam);
 
+    void login(int userId, String ip);
+
 }

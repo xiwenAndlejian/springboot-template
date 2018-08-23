@@ -4,14 +4,17 @@ import com.dekuofa.manager.UserManager;
 import com.dekuofa.model.entity.Permission;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
+import com.dekuofa.model.param.PageParam;
 import com.dekuofa.service.PermissionService;
 import com.dekuofa.service.RoleService;
 import com.dekuofa.service.UserService;
+import io.github.biezhi.anima.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author gx <br>
@@ -48,6 +51,11 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public void login(int userId, String ip) {
+        userService.login(userId, ip);
+    }
 
+    @Override
+    public Page<User> queryUser(String username, PageParam pageParam) {
+        return userService.query(username, pageParam);
     }
 }

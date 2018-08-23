@@ -1,6 +1,7 @@
 package com.dekuofa.model.entity;
 
 import com.dekuofa.model.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Column;
 import io.github.biezhi.anima.annotation.Ignore;
@@ -31,6 +32,7 @@ public class User extends Model implements BaseEntity {
     private int    id;
     @Column(name = "user_name")
     private String username;
+    @JsonIgnore
     private String password;
     private String nickName;
     private int    lastLoginTime;
