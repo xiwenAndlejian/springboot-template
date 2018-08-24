@@ -19,11 +19,11 @@ public class Permission extends Model implements BaseEntity {
     private Integer id;
     private String  name;
     private String  url;
-    private int     method;
-    private int     createTime;
-    private int     modifyTime;
-    private int     creatorId;
+    private Integer method;
+    private Integer createTime;
+    private Integer modifyTime;
+    private Integer creatorId;
     private String  creatorName;
-    private int     modifierId;
+    private Integer modifierId;
     private String  modifierName;
 }
