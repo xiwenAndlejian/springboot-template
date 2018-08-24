@@ -3,6 +3,7 @@ package com.dekuofa.model.entity;
 import com.dekuofa.model.BaseEntity;
 import com.dekuofa.model.param.UserParam;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Column;
 import io.github.biezhi.anima.annotation.Ignore;
@@ -31,18 +32,19 @@ public class User extends Model implements BaseEntity {
     private Integer id;
     @Column(name = "user_name")
     private String  username;
-    @JsonIgnore
+    @JsonIgnore // json返回值中忽略
+    @JsonProperty // 解决使用 @RequestBody 时，password为空的情况
     private String  password;
     private String  nickName;
-    private int     lastLoginTime;
+    private Integer lastLoginTime;
     private String  lastLoginIp;
 
-    private int    createTime;
-    private int    modifyTime;
-    private int    creatorId;
-    private String creatorName;
-    private int    modifierId;
-    private String modifierName;
+    private Integer createTime;
+    private Integer modifyTime;
+    private Integer creatorId;
+    private String  creatorName;
+    private Integer modifierId;
+    private String  modifierName;
 
     public User(UserParam userParam) {
         this.username = userParam.getUsername();
