@@ -23,4 +23,10 @@ public class UserInfo implements BaseUserInfo {
     public boolean isEmpty() {
         return false;
     }
+
+    @Override
+    public boolean isCurrentUser(int userId) {
+        return this.userId == userId;
+    }
+
 }

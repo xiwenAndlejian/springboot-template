@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.beans.Transient;
-import java.util.List;
 
 import static io.github.biezhi.anima.Anima.save;
 import static io.github.biezhi.anima.Anima.select;
@@ -83,5 +82,15 @@ public class UserServiceImpl implements UserService {
                 .set(User::getLastLoginIp, "ip")
                 .set(User::getLastLoginTime, DateUtil.newUnix())
                 .where(User::getId).eq(2).execute();
+    }
+
+    @Override
+    public void modify(User user) {
+        user.update();
+    }
+
+    @Override
+    public User getUser(int userId) {
+        return select().from(User.class).byId(userId);
     }
 }

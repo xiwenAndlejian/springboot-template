@@ -1,6 +1,9 @@
 package com.dekuofa.model.param;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+
 
 /**
  * @author gx <br>
@@ -9,7 +12,11 @@ import lombok.Data;
 @Data
 public class UserParam {
 
+    @Length(min = 5, max = 30, message = "用户名不符合规范：长度{min}-{max}")
     private String username;
+    // todo 正则匹配更复杂的校验至少一个大写字母一个小写字母和一个特殊字符（三选2）
+    @Length(min = 8, max = 16, message = "密码不符合规范：长度 {min}-{max}")
     private String password;
+    @Length(min = 2, max = 30, message = "昵称不符合规范：长度 {min}-{max}")
     private String nickName;
 }

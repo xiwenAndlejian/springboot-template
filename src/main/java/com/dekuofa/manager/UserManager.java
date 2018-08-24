@@ -1,6 +1,8 @@
 package com.dekuofa.manager;
 
 
+import com.dekuofa.model.BaseUserInfo;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.param.PageParam;
 import io.github.biezhi.anima.page.Page;
@@ -24,6 +26,9 @@ public interface UserManager {
      */
     void login(int userId, String ip);
 
+    int addUser(User user, BaseUserInfo userInfo);
 
     Page<User> queryUser(String username, PageParam pageParam);
+
+    void updateUser(User user, BaseUserInfo userInfo);
 }

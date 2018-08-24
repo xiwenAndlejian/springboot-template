@@ -21,4 +21,8 @@ public interface UserService {
 
     void login(int userId, String ip);
 
+    void modify(User user);
+
+    User getUser(int userId);
+
 }
