@@ -87,12 +87,13 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
+     * todo 返回状态码而非跳转
      * 将非法请求跳转到 /401
      */
     private void response401(ServletRequest req, ServletResponse resp) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/sanitation/401");
+            httpServletResponse.sendRedirect("/401");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
