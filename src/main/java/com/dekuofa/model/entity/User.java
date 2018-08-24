@@ -1,18 +1,17 @@
 package com.dekuofa.model.entity;
 
 import com.dekuofa.model.BaseEntity;
+import com.dekuofa.model.param.UserParam;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Column;
 import io.github.biezhi.anima.annotation.Ignore;
 import io.github.biezhi.anima.annotation.Table;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author gx <br>
@@ -25,18 +24,18 @@ import java.util.List;
 public class User extends Model implements BaseEntity {
 
     @Ignore
-    private Collection<SysRole> sysRoles;
+    private Collection<SysRole>    sysRoles;
     @Ignore
-    private Collection<Permission>    permissions;
+    private Collection<Permission> permissions;
 
-    private int    id;
+    private Integer id;
     @Column(name = "user_name")
-    private String username;
+    private String  username;
     @JsonIgnore
-    private String password;
-    private String nickName;
-    private int    lastLoginTime;
-    private String lastLoginIp;
+    private String  password;
+    private String  nickName;
+    private int     lastLoginTime;
+    private String  lastLoginIp;
 
     private int    createTime;
     private int    modifyTime;
@@ -44,5 +43,11 @@ public class User extends Model implements BaseEntity {
     private String creatorName;
     private int    modifierId;
     private String modifierName;
+
+    public User(UserParam userParam) {
+        this.username = userParam.getUsername();
+        this.password = userParam.getPassword();
+        this.nickName = userParam.getPassword();
+    }
 
 }

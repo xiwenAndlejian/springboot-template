@@ -1,5 +1,6 @@
 package com.dekuofa;
 
+import com.dekuofa.entity.User;
 import com.dekuofa.model.entity.Permission;
 import io.github.biezhi.anima.Anima;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,12 @@ public class PermissionTest {
 
     @Test
     public void select_permissions() {
+        User user = new User();
+        user.setUsername("test");
+        user.setId(1);
+        user.update();
+//        user.setUsername("modify");
+//        user.updateById(1);
 //        List<Integer> roles = Arrays.asList(1, 2);
 //        String ids = ids2String(roles);
 //        List<Permission> permissions = select()

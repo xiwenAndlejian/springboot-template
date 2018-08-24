@@ -23,8 +23,8 @@ import java.util.function.Function;
  * @author gx <br>
  * @date 2018-08-20 <br>
  */
-//@SpringBootTest
-//@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
 @Slf4j
 public class UserServiceTest {
     @Autowired

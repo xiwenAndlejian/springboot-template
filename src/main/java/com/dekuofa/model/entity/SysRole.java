@@ -15,15 +15,15 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "t_role")
 public class SysRole extends Model implements BaseEntity {
-    private int    id;
-    private String name;
-    private String desc;
-    private int    createTime;
-    private int    modifyTime;
-    private int    creatorId;
-    private String creatorName;
-    private int    modifierId;
-    private String modifierName;
+    private Integer id;
+    private String  name;
+    private String  desc;
+    private int     createTime;
+    private int     modifyTime;
+    private int     creatorId;
+    private String  creatorName;
+    private int     modifierId;
+    private String  modifierName;
 
     public SysRole(String name) {
         this.name = name;

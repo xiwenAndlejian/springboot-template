@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "t_permission")
 public class Permission extends Model implements BaseEntity {
-    private int    id;
-    private String name;
-    private String url;
-    private int    method;
-    private int    createTime;
-    private int    modifyTime;
-    private int    creatorId;
-    private String creatorName;
-    private int    modifierId;
-    private String modifierName;
+    private Integer id;
+    private String  name;
+    private String  url;
+    private int     method;
+    private int     createTime;
+    private int     modifyTime;
+    private int     creatorId;
+    private String  creatorName;
+    private int     modifierId;
+    private String  modifierName;
 }
