@@ -1,7 +1,6 @@
 package com.dekuofa;
 
-import com.dekuofa.entity.User;
-import com.dekuofa.model.entity.Permission;
+import com.dekuofa.model.entity.User;
 import io.github.biezhi.anima.Anima;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -9,8 +8,6 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static com.dekuofa.utils.CommonKit.ids2String;
-import static io.github.biezhi.anima.Anima.select;
 
 /**
  * @author gx <br>

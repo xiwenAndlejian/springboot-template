@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserInfo implements BaseUserInfo {
 
-    private int      userId;
+    private Integer  userId;
     private String   username;
     private String   nickName;
     private UserType userType;
@@ -25,8 +25,9 @@ public class UserInfo implements BaseUserInfo {
     }
 
     @Override
-    public boolean isCurrentUser(int userId) {
-        return this.userId == userId;
+    public boolean isCurrentUser(Integer userId) {
+
+        return userId != null && userId.equals(this.userId);
     }
 
 }

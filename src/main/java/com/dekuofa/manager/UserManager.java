@@ -2,12 +2,10 @@ package com.dekuofa.manager;
 
 
 import com.dekuofa.model.BaseUserInfo;
-import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.param.PageParam;
 import io.github.biezhi.anima.page.Page;
 
-import java.util.List;
 
 /**
  * @author gx <br>
@@ -24,11 +22,15 @@ public interface UserManager {
     /**
      * 更新用户登录信息：最后一次登陆时间 & ip
      */
-    void login(int userId, String ip);
+    void login(Integer userId, String ip);
 
-    int addUser(User user, BaseUserInfo userInfo);
+    Integer addUser(User user, BaseUserInfo userInfo);
 
     Page<User> queryUser(String username, PageParam pageParam);
 
     void updateUser(User user, BaseUserInfo userInfo);
+
+    boolean isExist(User user);
+
+
 }

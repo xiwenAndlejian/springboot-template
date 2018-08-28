@@ -1,19 +1,25 @@
 package com.dekuofa.controller;
 
 import com.dekuofa.exception.TipException;
+import com.dekuofa.manager.RoleManager;
 import com.dekuofa.manager.UserManager;
 import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.param.UserParam;
 import com.dekuofa.model.response.RestResponse;
 import com.dekuofa.service.UserService;
+import com.dekuofa.utils.DateUtil;
+import com.dekuofa.utils.ShaUtil;
 import io.github.biezhi.anima.page.Page;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 /**
  * @author gx <br>
@@ -23,10 +29,13 @@ import javax.validation.Valid;
 public class UserController {
 
     private UserManager userManager;
+    private RoleManager roleManager;
 
     @Autowired
-    public UserController(UserManager userManager) {
+    public UserController(UserManager userManager,
+                          RoleManager roleManager) {
         this.userManager = userManager;
+        this.roleManager = roleManager;
     }
 
     @PostMapping("/user")
@@ -34,6 +43,12 @@ public class UserController {
                                           UserInfo userInfo) {
         User user = new User(userParam);
         try {
+            // 加密
+            String password = ShaUtil.sha512Encode(user.getPassword());
+            user.setPassword(password);
+            int now = DateUtil.newUnix();
+            user.setCreateTime(now);
+            user.setModifyTime(now);
             int id = userManager.addUser(user, userInfo);
             return RestResponse.ok(id);
         } catch (Exception e) {
@@ -46,7 +61,7 @@ public class UserController {
 
     @RequiresAuthentication
     @PutMapping("/user/{id}")
-    public RestResponse<?> updateUser(@PathVariable("id") int userId,
+    public RestResponse<?> updateUser(@PathVariable("id") Integer userId,
                                       @RequestBody User user,
                                       @ModelAttribute UserInfo userInfo) {
         if (!userInfo.isCurrentUser(userId)) {
@@ -61,5 +76,29 @@ public class UserController {
     public RestResponse<Page<User>> query(String username, PageParam pageParam) {
         return RestResponse
                 .ok(userManager.queryUser(username, pageParam));
+    }
+
+    @GetMapping("/user/{id}/role")
+    public RestResponse<?> userRoles(@PathVariable("id") Integer userId) {
+        // todo 应该修改为只能当前用户和admin角色查询
+        if (userId == null) {
+            RestResponse.fail("用户id不能为空");
+        }
+        Collection<SysRole> roles = roleManager.roles(userId);
+        return RestResponse.ok(roles);
+    }
+
+    @PostMapping("/unique/user/username")
+    public RestResponse checkExist(@RequestParam("username") String username){
+        if (StringUtils.isEmpty(username)) {
+            return RestResponse.fail("用户名不能为空");
+        }
+        User user = new User();
+        user.setUsername(username);
+        boolean isExist = userManager.isExist(user);
+        if (isExist) {
+            return RestResponse.fail("用户名已存在").payload(username);
+        }
+        return RestResponse.ok();
     }
 }

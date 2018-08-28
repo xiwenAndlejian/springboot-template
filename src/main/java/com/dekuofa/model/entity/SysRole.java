@@ -1,6 +1,7 @@
 package com.dekuofa.model.entity;
 
 import com.dekuofa.model.BaseEntity;
+import com.dekuofa.model.param.SysRoleParam;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Table;
 import lombok.*;
@@ -28,5 +29,10 @@ public class SysRole extends Model implements BaseEntity {
     public SysRole(String name) {
         this.name = name;
     }
+
+    public SysRole(SysRoleParam param) {
+        this(param.getName());
+    }
+
 
 }

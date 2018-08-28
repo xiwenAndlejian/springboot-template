@@ -43,14 +43,16 @@ public class UserServiceImpl implements UserService {
 
     @Transient
     @Override
-    public int addUser(User user, BaseUserInfo userInfo) {
+    public Integer addUser(User user, BaseUserInfo userInfo) {
 
-        int now = DateUtil.newUnix();
-        user.setCreateTime(now);
-        user.setModifyTime(now);
 
-        int id = save(user).asInt();
-        return id;
+
+        try {
+            Integer id = save(user).asInt();
+            return id;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
@@ -77,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(int userId, String ip) {
+    public void login(Integer userId, String ip) {
         update().from(User.class)
                 .set(User::getLastLoginIp, "ip")
                 .set(User::getLastLoginTime, DateUtil.newUnix())
@@ -90,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(int userId) {
+    public User getUser(Integer userId) {
         return select().from(User.class).byId(userId);
     }
 }

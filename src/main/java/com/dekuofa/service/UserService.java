@@ -13,16 +13,16 @@ import io.github.biezhi.anima.page.Page;
 public interface UserService {
     User findByUsername(String username);
 
-    int addUser(User user, BaseUserInfo userInfo);
+    Integer addUser(User user, BaseUserInfo userInfo);
 
     boolean isExist(String username);
 
     Page<User> query(String username, PageParam pageParam);
 
-    void login(int userId, String ip);
+    void login(Integer userId, String ip);
 
     void modify(User user);
 
-    User getUser(int userId);
+    User getUser(Integer userId);
 
 }

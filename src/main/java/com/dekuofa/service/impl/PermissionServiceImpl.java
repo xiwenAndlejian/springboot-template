@@ -2,7 +2,9 @@ package com.dekuofa.service.impl;
 
 import com.dekuofa.model.entity.Permission;
 import com.dekuofa.model.entity.SysRole;
+import com.dekuofa.model.param.PageParam;
 import com.dekuofa.service.PermissionService;
+import io.github.biezhi.anima.page.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -38,6 +40,10 @@ public class PermissionServiceImpl implements PermissionService {
         Set<Permission> permissions = getPermissions(sysRoles);
         return permissions.stream()
                 .map(Permission::getName).collect(Collectors.toSet());
+    }
+
+    public Page<Permission> list(PageParam pageParam) {
+        return select().from(Permission.class).page(pageParam.getPage(), pageParam.getLimit());
     }
 
 }

@@ -15,9 +15,9 @@ public interface BaseUserInfo {
 
     UserType getUserType();
 
-    int getUserId();
+    Integer getUserId();
 
     boolean isEmpty();
 
-    boolean isCurrentUser(int userId);
+    boolean isCurrentUser(Integer userId);
 }

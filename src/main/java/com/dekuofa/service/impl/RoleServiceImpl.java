@@ -1,18 +1,17 @@
 package com.dekuofa.service.impl;
 
 
+import com.dekuofa.exception.TipException;
 import com.dekuofa.model.entity.SysRole;
-import com.dekuofa.model.entity.User;
 import com.dekuofa.service.RoleService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.beans.Transient;
+import java.util.*;
 
+import static io.github.biezhi.anima.Anima.save;
 import static io.github.biezhi.anima.Anima.select;
+import static io.github.biezhi.anima.Anima.update;
 
 /**
  * @author gx <br>
@@ -22,7 +21,7 @@ import static io.github.biezhi.anima.Anima.select;
 public class RoleServiceImpl implements RoleService {
 
     @Override
-    public Set<SysRole> getRoles(int userId) {
+    public Set<SysRole> getRoles(Integer userId) {
         List<SysRole> sysRoles = select()
                 .bySQL(SysRole.class, "select r.id, r.name from t_role r\n" +
                         "right join user_role ur\n" +
@@ -31,4 +30,34 @@ public class RoleServiceImpl implements RoleService {
 
         return new HashSet<>(sysRoles);
     }
+
+    @Transient
+    @Override
+    public Integer addRole(SysRole role) {
+        Integer id = save(role).asInt();
+        if (id == null) {
+            throw new TipException("服务器异常：新增用户失败");
+        }
+        return id;
+
+    }
+
+    @Override
+    public void modify(SysRole role) {
+        role.update();
+    }
+
+    @Override
+    public Collection<SysRole> list() {
+        return select().from(SysRole.class).all();
+    }
+
+    @Override
+    public boolean isExist(String roleName) {
+        long count = select().from(SysRole.class)
+                .where("name", roleName)
+                .count();
+        return count >= 1;
+    }
+
 }

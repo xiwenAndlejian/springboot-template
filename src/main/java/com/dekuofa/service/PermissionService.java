@@ -2,6 +2,8 @@ package com.dekuofa.service;
 
 import com.dekuofa.model.entity.Permission;
 import com.dekuofa.model.entity.SysRole;
+import com.dekuofa.model.param.PageParam;
+import io.github.biezhi.anima.page.Page;
 
 import java.util.Collection;
 import java.util.Set;
@@ -12,4 +14,6 @@ import java.util.Set;
  */
 public interface PermissionService {
     Set<Permission> getPermissions(Collection<SysRole> roles);
+
+    Page<Permission> list(PageParam pageParam);
 }
