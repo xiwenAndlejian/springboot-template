@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
+ * 权限信息不允许修改新增
+ *
  * @author gx <br>
  * @date 2018-08-14 <br>
  */
@@ -20,10 +22,4 @@ public class Permission extends Model implements BaseEntity {
     private String  name;
     private String  url;
     private Integer method;
-    private Integer createTime;
-    private Integer modifyTime;
-    private Integer creatorId;
-    private String  creatorName;
-    private Integer modifierId;
-    private String  modifierName;
 }
