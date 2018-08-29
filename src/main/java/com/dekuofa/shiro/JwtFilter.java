@@ -18,7 +18,6 @@ import java.io.IOException;
  * 标题：JWTFilter<br>
  * 功能：json web token 过滤器<br>
  */
-@SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @Log4j2
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
