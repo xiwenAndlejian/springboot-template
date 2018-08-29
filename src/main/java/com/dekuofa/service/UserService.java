@@ -17,6 +17,8 @@ public interface UserService {
 
     boolean isExist(String username);
 
+    boolean isExist(Integer userId);
+
     Page<User> query(String username, PageParam pageParam);
 
     void login(Integer userId, String ip);

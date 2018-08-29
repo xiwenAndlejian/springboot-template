@@ -3,6 +3,8 @@ package com.dekuofa.manager;
 import com.dekuofa.model.entity.SysRole;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author gx <br>
@@ -18,4 +20,8 @@ public interface RoleManager {
     void modify(SysRole role);
 
     Collection<SysRole> list();
+
+    List<Integer> roleIds(Integer userId);
+
+    void changeUserRoles(Integer userId, Set<Integer> addRoleIds, Set<Integer> deleteRoleIds);
 }

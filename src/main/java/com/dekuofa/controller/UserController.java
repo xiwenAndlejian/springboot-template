@@ -9,7 +9,6 @@ import com.dekuofa.model.entity.User;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.param.UserParam;
 import com.dekuofa.model.response.RestResponse;
-import com.dekuofa.service.UserService;
 import com.dekuofa.utils.DateUtil;
 import com.dekuofa.utils.ShaUtil;
 import io.github.biezhi.anima.page.Page;
@@ -20,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Set;
+
+import static com.dekuofa.utils.CommonKit.difference;
 
 /**
  * @author gx <br>
@@ -88,8 +90,32 @@ public class UserController {
         return RestResponse.ok(roles);
     }
 
+    @PutMapping("/user/{id}/role")
+    public RestResponse<?> changeUserRoles(@PathVariable("id") Integer userId,
+                                           @RequestParam("roleIds") Integer[] roleIds,
+                                           UserInfo userInfo) {
+        if (userId == null || !userManager.isExist(userId)) {
+            return RestResponse.fail("修改失败：用户不存在");
+        }
+        Integer[]    userRoles   = roleManager.roleIds(userId).toArray(new Integer[]{});
+        Set<Integer> addRoles    = difference(roleIds, userRoles);
+        Set<Integer> deleteRoles = difference(userRoles, roleIds);
+        try {
+            roleManager.changeUserRoles(userId, addRoles, deleteRoles);
+        } catch (Exception e) {
+            String msg;
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            } else {
+                msg = "服务异常：修改角色失败";
+            }
+            return RestResponse.fail(msg);
+        }
+        return RestResponse.ok();
+    }
+
     @PostMapping("/unique/user/username")
-    public RestResponse checkExist(@RequestParam("username") String username){
+    public RestResponse<?> checkExist(@RequestParam("username") String username) {
         if (StringUtils.isEmpty(username)) {
             return RestResponse.fail("用户名不能为空");
         }

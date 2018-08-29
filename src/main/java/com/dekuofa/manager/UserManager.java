@@ -32,5 +32,5 @@ public interface UserManager {
 
     boolean isExist(User user);
 
-
+    boolean isExist(Integer userId);
 }

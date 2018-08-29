@@ -3,10 +3,12 @@ package com.dekuofa.manager.impl;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.model.entity.SysRole;
+import com.dekuofa.model.relation.UserRole;
 import com.dekuofa.service.RoleService;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author gx <br>
@@ -47,5 +49,19 @@ public class RoleManagerImpl implements RoleManager {
     @Override
     public Collection<SysRole> list() {
         return roleService.list();
+    }
+
+    @Override
+    public List<Integer> roleIds(Integer userId) {
+        return roleService.roleIds(userId);
+    }
+
+    @Override
+    public void changeUserRoles(Integer userId, Set<Integer> addRoleIds, Set<Integer> deleteRoleIds) {
+        List<UserRole> addUserRoles = addRoleIds.stream()
+                .map(roleId -> new UserRole(userId, roleId))
+                .collect(Collectors.toList());
+        List<Integer> deleteRoles = new ArrayList<>(deleteRoleIds);
+        roleService.changeUserRoles(userId, addUserRoles, deleteRoles);
     }
 }

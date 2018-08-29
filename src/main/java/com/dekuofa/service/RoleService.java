@@ -2,6 +2,8 @@ package com.dekuofa.service;
 
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.param.SysRoleParam;
+import com.dekuofa.model.relation.UserRole;
+import io.swagger.models.auth.In;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,6 +23,9 @@ public interface RoleService {
 
     Collection<SysRole> list();
 
-
     boolean isExist(String roleName);
+
+    List<Integer> roleIds(Integer userId);
+
+    void changeUserRoles(Integer userId, List<UserRole> addRoleIds, List<Integer> deleteIds);
 }

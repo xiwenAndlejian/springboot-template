@@ -3,15 +3,14 @@ package com.dekuofa.service.impl;
 
 import com.dekuofa.exception.TipException;
 import com.dekuofa.model.entity.SysRole;
+import com.dekuofa.model.relation.UserRole;
 import com.dekuofa.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
 import java.util.*;
 
-import static io.github.biezhi.anima.Anima.save;
-import static io.github.biezhi.anima.Anima.select;
-import static io.github.biezhi.anima.Anima.update;
+import static io.github.biezhi.anima.Anima.*;
 
 /**
  * @author gx <br>
@@ -58,6 +57,26 @@ public class RoleServiceImpl implements RoleService {
                 .where("name", roleName)
                 .count();
         return count >= 1;
+    }
+
+    @Override
+    public List<Integer> roleIds(Integer userId) {
+        return select()
+                .bySQL(Integer.class, "select role_id from user_role where user_id = ?", userId)
+                .all();
+    }
+
+    @Transient
+    @Override
+    public void changeUserRoles(Integer userId, List<UserRole> addRoleIds, List<Integer> deleteIds) {
+        if (deleteIds != null && deleteIds.size() != 0) {
+            delete().from(UserRole.class)
+                    .where("user_id", userId)
+                    .in("role_id", deleteIds).execute();
+        }
+        if (addRoleIds != null && addRoleIds.size() != 0) {
+            saveBatch(addRoleIds);
+        }
     }
 
 }

@@ -95,4 +95,9 @@ public class UserManagerImpl implements UserManager {
         return userService.isExist(user.getUsername());
     }
 
+    @Override
+    public boolean isExist(Integer userId) {
+        return userService.isExist(userId);
+    }
+
 }

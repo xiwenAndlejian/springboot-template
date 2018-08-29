@@ -62,6 +62,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isExist(Integer userId) {
+        long count = select().from(User.class).where("id", userId).count();
+        return count >= 1;
+    }
+
+    @Override
     public Page<User> query(String username, PageParam pageParam) {
         Page<User> users;
         if (StringUtils.isEmpty(username)) {
