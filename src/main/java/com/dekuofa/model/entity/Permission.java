@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 权限信息不允许修改新增
+ * 权限信息暂时不允许修改&新增
  *
  * @author gx <br>
  * @date 2018-08-14 <br>
