@@ -2,6 +2,7 @@ package com.dekuofa.controller;
 
 import com.dekuofa.annotation.SysLog;
 import com.dekuofa.manager.UserManager;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.enums.UserType;
 import com.dekuofa.model.param.LoginParam;
@@ -34,14 +35,16 @@ public class AuthController {
         if (param == null || param.getUsername() == null) {
             throw new UnauthorizedException("用户名或密码不能为空");
         }
-        log.info("用户登陆ip：" + ip);
+        log.debug("用户登陆ip：" + ip);
         User user = userManager.findByUsername(param.getUsername());
         // 加密后的密码
         String encodePwd = ShaUtil.sha512Encode(param.getPassword());
         if (user != null && user.getPassword().equals(encodePwd)) {
+            UserInfo userInfo =
+                    new UserInfo(user.getId(), user.getUsername(), user.getNickName(), UserType.ADMIN);
             // 生成token
             String token =
-                    JwtUtil.sign(user.getId(), user.getUsername(), encodePwd, user.getNickName(), UserType.ADMIN);
+                    JwtUtil.sign(userInfo, encodePwd);
             if (token == null) {
                 return RestResponse.fail("生成token失败");
             }
@@ -49,7 +52,7 @@ public class AuthController {
             userManager.login(user.getId(), ip);
 
             // 组装返回数据
-            LoginResponse response = new LoginResponse(user.getNickName(), token, user.getPermissions());
+            LoginResponse response = new LoginResponse(userInfo, token, user.getPermissions());
             return RestResponse.ok(response);
         }
         throw new UnauthorizedException("用户名或密码错误");

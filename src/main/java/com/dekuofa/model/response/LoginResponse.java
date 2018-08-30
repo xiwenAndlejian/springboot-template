@@ -1,5 +1,6 @@
 package com.dekuofa.model.response;
 
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.Permission;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class LoginResponse {
 
-    private String nickName;
-    private String token;
+    private UserInfo               userInfo;
+    private String                 token;
     private Collection<Permission> permissions;
 }

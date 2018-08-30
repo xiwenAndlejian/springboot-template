@@ -77,11 +77,11 @@ public class JwtUtil {
      */
     public static Optional<BaseUserInfo> getUserInfo(String token) {
         try {
-            DecodedJWT jwt        = JWT.decode(token);
-            Integer    userId     = jwt.getClaim("userId").asInt();
-            String     username   = jwt.getClaim("username").asString();
-            String     nickName   = jwt.getClaim("nickName").asString();
-            UserType   userType   = jwt.getClaim("userType").as(UserType.class);
+            DecodedJWT jwt      = JWT.decode(token);
+            Integer    userId   = jwt.getClaim("userId").asInt();
+            String     username = jwt.getClaim("username").asString();
+            String     nickName = jwt.getClaim("nickName").asString();
+            UserType   userType = jwt.getClaim("userType").as(UserType.class);
 
             return Optional.of(
                     new UserInfo(userId, username, nickName, userType));
@@ -94,27 +94,20 @@ public class JwtUtil {
     /**
      * 生成token
      *
-     * @param userId     用户id
-     * @param username   用户名
-     * @param password   密码（用于盐加密）
-     * @param nickName   用户昵称
-     * @param userType   用户类型： 参考creatorType
+     * @param password 密码（用于盐加密）
      * @return token令牌，String
      */
-    public static String sign(Integer userId,
-                              String username,
-                              String password,
-                              String nickName,
-                              UserType userType) {
+    public static String sign(UserInfo userInfo,
+                              String password) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
             return
 //                    TOKEN_HEAD +
                     JWT.create()
-                            .withClaim("username", username)
-                            .withClaim("userId", userId)
-                            .withClaim("userType", userType.getCode())
-                            .withClaim("nickName", nickName)
+                            .withClaim("username", userInfo.getUsername())
+                            .withClaim("userId", userInfo.getUserId())
+                            .withClaim("userType", userInfo.getUserType().getCode())
+                            .withClaim("nickName", userInfo.getNickName())
                             .withExpiresAt(date)
                             // 密码加盐
                             .sign(Algorithm.HMAC256(password));

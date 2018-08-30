@@ -29,7 +29,7 @@ public class RestResponse<T> {
     /**
      * 时间戳
      */
-    private Long timestamp;
+    private Long    timestamp;
 
 
     public RestResponse() {
