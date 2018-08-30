@@ -1,5 +1,6 @@
 package com.dekuofa.controller;
 
+import com.dekuofa.annotation.SysLog;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.SysRole;
@@ -27,6 +28,7 @@ public class RoleController {
         this.roleManager = roleManager;
     }
 
+    @SysLog(action = "新增角色")
     @RequiresAuthentication
     @PostMapping("/role")
     public RestResponse<?> add(@RequestBody SysRoleParam param, UserInfo userInfo) {
@@ -49,6 +51,7 @@ public class RoleController {
         return RestResponse.ok(id);
     }
 
+    @SysLog(action = "修改角色信息")
     @RequiresAuthentication
     @PutMapping("/role/{id}")
     public RestResponse<?> modify(@PathVariable("id") Integer id,

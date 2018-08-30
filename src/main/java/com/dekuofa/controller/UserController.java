@@ -41,6 +41,7 @@ public class UserController {
         this.roleManager = roleManager;
     }
 
+    @SysLog(action = "新增用户")
     @PostMapping("/user")
     public RestResponse<Integer> saveUser(@RequestBody @Valid UserParam userParam,
                                           UserInfo userInfo) {
@@ -62,6 +63,7 @@ public class UserController {
         }
     }
 
+    @SysLog(action = "修改用户信息")
     @RequiresAuthentication
     @PutMapping("/user/{id}")
     public RestResponse<?> updateUser(@PathVariable("id") Integer userId,
@@ -91,6 +93,7 @@ public class UserController {
         return RestResponse.ok(roles);
     }
 
+    @SysLog(action = "修改用户角色")
     @PutMapping("/user/{id}/role")
     public RestResponse<?> changeUserRoles(@PathVariable("id") Integer userId,
                                            @RequestParam("roleIds") Integer[] roleIds,
