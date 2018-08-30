@@ -3,7 +3,7 @@ package com.dekuofa.utils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-22 <br>
  */
 public class IpKit {

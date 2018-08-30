@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * 权限信息暂时不允许修改&新增
  *
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-14 <br>
  */
 @Data

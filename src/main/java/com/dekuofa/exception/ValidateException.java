@@ -1,7 +1,7 @@
 package com.dekuofa.exception;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-28 <br>
  */
 public class ValidateException extends RuntimeException {

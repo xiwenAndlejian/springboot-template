@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.function.Function;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-21 <br>
  */
 @Data

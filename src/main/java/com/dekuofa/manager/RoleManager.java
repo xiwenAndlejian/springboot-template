@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-28 <br>
  */
 public interface RoleManager {

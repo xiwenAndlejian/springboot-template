@@ -5,7 +5,7 @@ import com.dekuofa.model.param.SysRoleParam;
 import org.springframework.util.StringUtils;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-28 <br>
  */
 public class CommonValidator {

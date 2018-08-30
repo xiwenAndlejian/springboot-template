@@ -1,5 +1,6 @@
 package com.dekuofa.controller;
 
+import com.dekuofa.annotation.SysLog;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.manager.UserManager;
@@ -24,7 +25,7 @@ import java.util.Set;
 import static com.dekuofa.utils.CommonKit.difference;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-22 <br>
  */
 @RestController
@@ -74,8 +75,9 @@ public class UserController {
         return RestResponse.ok();
     }
 
+    @SysLog(action = "test")
     @GetMapping("/user")
-    public RestResponse<Page<User>> query(String username, PageParam pageParam) {
+    public RestResponse<Page<User>> query(UserInfo userInfo, String username, PageParam pageParam) {
         return RestResponse
                 .ok(userManager.queryUser(username, pageParam));
     }

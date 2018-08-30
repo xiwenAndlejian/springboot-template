@@ -14,7 +14,7 @@ import static com.dekuofa.utils.CommonKit.ids2String;
 import static io.github.biezhi.anima.Anima.select;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-14 <br>
  */
 @Service
@@ -28,8 +28,8 @@ public class PermissionServiceImpl implements PermissionService {
 
         String ids = ids2String(sysRoles);
         List<Permission> permissions = select()
-                .bySQL(Permission.class, "select p.id, p.permission  from role_permission rp\n" +
-                        "left join permission p\n" +
+                .bySQL(Permission.class, "select p.id, p.name,p.url,p.method  from role_permission rp\n" +
+                        "left join t_permission p\n" +
                         "    on rp.permission_id = p.id\n" +
                         "where rp.role_id in (?)", ids).all();
 

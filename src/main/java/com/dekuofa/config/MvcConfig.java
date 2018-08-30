@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-23 <br>
  */
 //@Configuration

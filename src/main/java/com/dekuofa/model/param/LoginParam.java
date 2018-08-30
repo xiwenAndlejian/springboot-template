@@ -3,7 +3,7 @@ package com.dekuofa.model.param;
 import lombok.Data;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-22 <br>
  */
 @Data

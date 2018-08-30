@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-22 <br>
  */
 @Data

@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.function.Function;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-21 <br>
  */
 public interface BaseEntity {

@@ -5,7 +5,7 @@ import com.dekuofa.model.param.PageParam;
 import io.github.biezhi.anima.page.Page;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-28 <br>
  */
 public interface PermissionManager {

@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-20 <br>
  */
 public interface PermissionService {

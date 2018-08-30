@@ -3,7 +3,7 @@ package com.dekuofa.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-17 <br>
  */
 @Target(ElementType.METHOD)

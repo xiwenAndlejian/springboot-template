@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-14 <br>
  */
 @RestController
@@ -49,7 +49,7 @@ public class AuthController {
             userManager.login(user.getId(), ip);
 
             // 组装返回数据
-            LoginResponse response = new LoginResponse(token, user.getPermissions());
+            LoginResponse response = new LoginResponse(user.getNickName(), token, user.getPermissions());
             return RestResponse.ok(response);
         }
         throw new UnauthorizedException("用户名或密码错误");

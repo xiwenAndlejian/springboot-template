@@ -3,7 +3,7 @@ package com.dekuofa.utils;
 import java.time.Instant;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-08 <br>
  */
 public class DateUtil {

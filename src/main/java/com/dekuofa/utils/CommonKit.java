@@ -1,10 +1,13 @@
 package com.dekuofa.utils;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-15 <br>
  */
 public class CommonKit {
@@ -25,5 +28,14 @@ public class CommonKit {
         return sb.toString();
     }
 
+    /**
+     * return first - (first ∩ second)
+     */
+    public static <T> Set<T> difference(T[] first, T[] second) {
+        Set<T> set = Arrays.stream(second).collect(Collectors.toSet());
+        return Arrays.stream(first)
+                .filter(i -> !set.contains(i))
+                .collect(Collectors.toSet());
+    }
 
 }

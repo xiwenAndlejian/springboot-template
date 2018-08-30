@@ -7,7 +7,7 @@ import io.github.biezhi.anima.page.Page;
 
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-20 <br>
  */
 public interface UserService {

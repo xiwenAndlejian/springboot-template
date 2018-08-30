@@ -20,4 +20,5 @@ logging:
   level:
     org.springframework:
       web: debug
+#      web.servlet.mvc.method.annotation: info
     org.sql2o: debug
