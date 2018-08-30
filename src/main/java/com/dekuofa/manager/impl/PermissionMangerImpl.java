@@ -9,6 +9,8 @@ import io.github.biezhi.anima.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author dekuofa <br>
  * @date 2018-08-28 <br>
@@ -25,5 +27,16 @@ public class PermissionMangerImpl implements PermissionManager {
     @Override
     public Page<Permission> list(PageParam pageParam) {
         return permissionService.list(pageParam);
+    }
+
+    @Override
+    public List<Permission> permissions(Integer roleId) {
+        return permissionService.permissions(roleId);
+    }
+
+    @Override
+    public void changePermissions(Integer roleId, List<Integer> permissionIds) {
+        //1. 查询当前角色的权限列表
+        //2.
     }
 }

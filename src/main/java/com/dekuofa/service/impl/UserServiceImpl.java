@@ -88,8 +88,8 @@ public class UserServiceImpl implements UserService {
     public void login(Integer userId, String ip) {
         update().from(User.class)
                 .set(User::getLastLoginIp, "ip")
-                .set(User::getLastLoginTime, DateUtil.newUnix())
-                .where(User::getId).eq(2).execute();
+                .set(User::getLastLoginTime, DateUtil.newUnixMilliSecond())
+                .where(User::getId).eq(userId).execute();
     }
 
     @Override

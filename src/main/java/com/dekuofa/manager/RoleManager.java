@@ -1,6 +1,8 @@
 package com.dekuofa.manager;
 
+import com.dekuofa.model.entity.Permission;
 import com.dekuofa.model.entity.SysRole;
+import io.swagger.models.auth.In;
 
 import java.util.Collection;
 import java.util.List;

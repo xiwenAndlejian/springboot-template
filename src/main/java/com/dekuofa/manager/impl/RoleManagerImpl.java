@@ -2,8 +2,10 @@ package com.dekuofa.manager.impl;
 
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.RoleManager;
+import com.dekuofa.model.entity.Permission;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.relation.UserRole;
+import com.dekuofa.service.PermissionService;
 import com.dekuofa.service.RoleService;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +19,13 @@ import java.util.stream.Collectors;
 @Component
 public class RoleManagerImpl implements RoleManager {
 
-    private RoleService roleService;
+    private RoleService       roleService;
+    private PermissionService permissionService;
 
-    public RoleManagerImpl(RoleService roleService) {
+    public RoleManagerImpl(RoleService roleService,
+                           PermissionService permissionService) {
         this.roleService = roleService;
+        this.permissionService = permissionService;
     }
 
     @Override

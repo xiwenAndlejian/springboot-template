@@ -48,13 +48,13 @@ public class LogAspect {
     public void normal(JoinPoint point, Object returning) {
         Method method = ((MethodSignature) point.getSignature()).getMethod();
         UserInfo userInfo = getUserInfo(point);
-        if (userInfo != null) {
+        if (userInfo != null && !userInfo.isEmpty()) {
             log.info("当前用户:{}", userInfo.getNickName());
-            SysLogInfo logInfo = new SysLogInfo();
-            logInfo.setAction(getAction(method));
-            logInfo.setUserId(userInfo.getUserId());
-            logInfo.setUsername(userInfo.getNickName());
-            logInfo.setCreateTime(DateUtil.newUnix());
+            String action = getAction(method);
+            SysLogInfo logInfo = new SysLogInfo(isSuccess(returning));
+            logInfo.userInfo(userInfo).action(action)
+                    .createTime(DateUtil.newUnixMilliSecond());
+            // todo 保存异常的参数
             logManager.save(logInfo);
         }
         log.info("{}: normal", getAction(method));
@@ -66,7 +66,12 @@ public class LogAspect {
         log.info("{}: exception cause: {}", getAction(method), e.getMessage());
     }
 
-
+    private boolean isSuccess(Object returning) {
+        if (returning instanceof RestResponse) {
+            return ((RestResponse) returning).isSuccess();
+        }
+        return false;
+    }
 
     private UserInfo getUserInfo(JoinPoint point) {
         Optional<Object> first = Stream.of(point.getArgs())

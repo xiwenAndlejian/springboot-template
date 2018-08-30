@@ -17,6 +17,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -44,7 +45,7 @@ public class UserController {
     @SysLog(action = "新增用户")
     @PostMapping("/user")
     public RestResponse<Integer> saveUser(@RequestBody @Valid UserParam userParam,
-                                          UserInfo userInfo) {
+                                          @ApiIgnore UserInfo userInfo) {
         User user = new User(userParam);
         try {
             // 加密
@@ -97,7 +98,7 @@ public class UserController {
     @PutMapping("/user/{id}/role")
     public RestResponse<?> changeUserRoles(@PathVariable("id") Integer userId,
                                            @RequestParam("roleIds") Integer[] roleIds,
-                                           UserInfo userInfo) {
+                                           @ApiIgnore UserInfo userInfo) {
         if (userId == null || !userManager.isExist(userId)) {
             return RestResponse.fail("修改失败：用户不存在");
         }
