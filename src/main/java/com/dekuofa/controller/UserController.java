@@ -49,7 +49,7 @@ public class UserController {
             // 加密
             String password = ShaUtil.sha512Encode(user.getPassword());
             user.setPassword(password);
-            int now = DateUtil.newUnix();
+            Long now = DateUtil.newUnixMilliSecond();
             user.setCreateTime(now);
             user.setModifyTime(now);
             int id = userManager.addUser(user, userInfo);
@@ -75,9 +75,8 @@ public class UserController {
         return RestResponse.ok();
     }
 
-    @SysLog(action = "test")
     @GetMapping("/user")
-    public RestResponse<Page<User>> query(UserInfo userInfo, String username, PageParam pageParam) {
+    public RestResponse<Page<User>> query(String username, PageParam pageParam) {
         return RestResponse
                 .ok(userManager.queryUser(username, pageParam));
     }

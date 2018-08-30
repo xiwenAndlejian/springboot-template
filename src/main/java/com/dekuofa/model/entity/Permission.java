@@ -21,5 +21,5 @@ public class Permission extends Model implements BaseEntity {
     private Integer id;
     private String  name;
     private String  url;
-    private Integer method;
+    private String  method;
 }

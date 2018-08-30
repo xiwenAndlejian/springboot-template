@@ -13,13 +13,15 @@ public class RestResponse<T> {
     /**
      * 返回的信息
      */
-    private T payload;
-
-    private int    code = 0;
+    private T       payload;
+    /**
+     * 错误代码
+     */
+    private int     code = 0;
     /**
      * 错误信息
      */
-    private String msg;
+    private String  msg;
     /**
      * 是否成功
      */
@@ -27,20 +29,20 @@ public class RestResponse<T> {
     /**
      * 时间戳
      */
-    private Integer timestamp;
+    private Long timestamp;
 
 
     public RestResponse() {
-        this.timestamp = DateUtil.newUnix();
+        this.timestamp = DateUtil.newUnixMilliSecond();
     }
 
     public RestResponse(boolean success) {
-        this.timestamp = DateUtil.newUnix();
+        this.timestamp = DateUtil.newUnixMilliSecond();
         this.success = success;
     }
 
     public RestResponse(boolean success, T payload) {
-        this.timestamp = DateUtil.newUnix();
+        this.timestamp = DateUtil.newUnixMilliSecond();
         this.payload = payload;
         this.success = success;
     }

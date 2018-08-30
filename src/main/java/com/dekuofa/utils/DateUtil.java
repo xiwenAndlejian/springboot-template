@@ -15,4 +15,7 @@ public class DateUtil {
     public static Integer newUnix() {
         return (int) Instant.now().getEpochSecond();
     }
+    public static Long newUnixMilliSecond() {
+        return Instant.now().toEpochMilli();
+    }
 }

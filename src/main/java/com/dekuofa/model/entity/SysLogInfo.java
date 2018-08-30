@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 public class SysLogInfo extends Model {
 
     private Integer id;
-    private Integer createTime;
+    private Long    createTime;
     private Integer userId;
     @Column(name = "user_name")
     private String  username;

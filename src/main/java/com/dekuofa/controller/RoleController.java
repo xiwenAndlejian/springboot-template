@@ -36,7 +36,7 @@ public class RoleController {
         if (roleManager.isExist(role)) {
             return RestResponse.fail("新增失败：角色名已存在");
         }
-        int now = DateUtil.newUnix();
+        Long now = DateUtil.newUnixMilliSecond();
         role.setCreatorId(userInfo.getUserId());
         role.setCreatorName(userInfo.getNickName());
         role.setCreateTime(now);
@@ -62,10 +62,9 @@ public class RoleController {
         if (roleManager.isExist(role)) {
             return RestResponse.fail("修改失败：角色名已存在");
         }
-        int now = DateUtil.newUnix();
         role.setModifierId(userInfo.getUserId());
         role.setModifierName(userInfo.getNickName());
-        role.setModifyTime(now);
+        role.setModifyTime(DateUtil.newUnixMilliSecond());
 
         role.setId(id);
         roleManager.modify(role);

@@ -11,6 +11,7 @@ import io.github.biezhi.anima.annotation.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Collection;
 
@@ -24,8 +25,10 @@ import java.util.Collection;
 @NoArgsConstructor
 public class User extends Model implements BaseEntity {
 
+    @JsonIgnore
     @Ignore
     private Collection<SysRole>    sysRoles;
+    @JsonIgnore
     @Ignore
     private Collection<Permission> permissions;
 
@@ -39,8 +42,8 @@ public class User extends Model implements BaseEntity {
     private Integer lastLoginTime;
     private String  lastLoginIp;
 
-    private Integer createTime;
-    private Integer modifyTime;
+    private Long    createTime;
+    private Long    modifyTime;
     private Integer creatorId;
     private String  creatorName;
     private Integer modifierId;

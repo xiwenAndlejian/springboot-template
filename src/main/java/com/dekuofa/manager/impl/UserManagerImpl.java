@@ -83,7 +83,7 @@ public class UserManagerImpl implements UserManager {
         }
         update.setPassword(StringUtils.isEmpty(user.getPassword()) ? null : ShaUtil.sha512Encode(user.getPassword()));
         update.setNickName(user.getNickName());
-        update.setModifyTime(DateUtil.newUnix());
+        update.setModifyTime(DateUtil.newUnixMilliSecond());
         update.setModifierId(userInfo.getUserId());
         update.setModifierName(userInfo.getNickName());
 

@@ -19,8 +19,8 @@ public class SysRole extends Model implements BaseEntity {
     private Integer id;
     private String  name;
     private String  desc;
-    private Integer createTime;
-    private Integer modifyTime;
+    private Long    createTime;
+    private Long    modifyTime;
     private Integer creatorId;
     private String  creatorName;
     private Integer modifierId;
