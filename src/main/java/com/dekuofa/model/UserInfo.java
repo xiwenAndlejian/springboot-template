@@ -22,7 +22,7 @@ public class UserInfo implements BaseUserInfo {
     @Override
     public boolean isEmpty() {
 
-        return userId != null || username != null || nickName != null;
+        return userId == null || username == null || nickName == null;
     }
 
     @Override
