@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author dekuofa <br>
@@ -31,7 +32,8 @@ public class AuthController {
 
     @SysLog(action = "登陆")
     @PostMapping("/login")
-    public RestResponse<LoginResponse> login(@RequestBody LoginParam param, @ModelAttribute("ip") String ip) throws Exception {
+    public RestResponse<LoginResponse> login(@RequestBody LoginParam param,
+                                             @ApiIgnore @ModelAttribute("ip") String ip) {
         if (param == null || param.getUsername() == null) {
             throw new UnauthorizedException("用户名或密码不能为空");
         }
@@ -55,7 +57,7 @@ public class AuthController {
             LoginResponse response = new LoginResponse(userInfo, token, user.getPermissions());
             return RestResponse.ok(response);
         }
-        throw new UnauthorizedException("用户名或密码错误");
+        return RestResponse.fail("用户名或密码错误");
     }
 
     @RequestMapping(value = "/401")
