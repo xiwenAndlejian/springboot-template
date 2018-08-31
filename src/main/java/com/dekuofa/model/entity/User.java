@@ -11,7 +11,6 @@ import io.github.biezhi.anima.annotation.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Collection;
 
@@ -39,7 +38,7 @@ public class User extends Model implements BaseEntity {
     @JsonProperty // 解决使用 @RequestBody 时，password为空的情况
     private String  password;
     private String  nickName;
-    private Integer lastLoginTime;
+    private Long    lastLoginTime;
     private String  lastLoginIp;
 
     private Long    createTime;
