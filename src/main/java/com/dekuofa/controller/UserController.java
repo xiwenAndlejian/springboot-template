@@ -43,6 +43,7 @@ public class UserController {
     }
 
     @SysLog(action = "新增用户")
+    @RequiresAuthentication
     @PostMapping("/user")
     public RestResponse<Integer> saveUser(@RequestBody @Valid UserParam userParam,
                                           @ApiIgnore UserInfo userInfo) {

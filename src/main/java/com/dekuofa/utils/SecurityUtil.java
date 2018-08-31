@@ -18,14 +18,20 @@ import java.util.Optional;
 @Log4j2
 public class SecurityUtil {
     public static Optional<BaseUserInfo> getCurrentUserInfo() {
+        String token = "";
         try {
             Subject currentUser = Optional.of(SecurityUtils.getSubject())
-                    .orElseThrow(() -> new TipException("服务器异常：用户权限模板获取失败"));
-            String token = Optional.of((String) currentUser.getPrincipal())
-                    .orElseThrow(() -> new TipException("token校验失败：用户未登录"));
+                    .orElseThrow(() -> new TipException("用户权限模板获取失败"));
+            token = Optional.of((String) currentUser.getPrincipal())
+                    .orElseThrow(() -> new TipException("token校验失败"));
             return JwtUtil.getUserInfo(token);
         } catch (Exception e) {
-            log.error("获取用户信息失败");
+            String msg = "token异常";
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            }
+            log.error("获取用户信息失败：{}", msg);
+            log.error("token：{}", token);
             return Optional.empty();
         }
     }
