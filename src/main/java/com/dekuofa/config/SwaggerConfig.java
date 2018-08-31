@@ -51,7 +51,7 @@ public class SwaggerConfig {
         authorizationScopes.add(new AuthorizationScope("global", "accessEverything"));
         return Collections.singletonList(
                 new SecurityReference("Authorization",
-                        (AuthorizationScope[]) authorizationScopes.toArray()));
+                         authorizationScopes.toArray(new AuthorizationScope[0])));
     }
 
     private ApiKey apiKey() {
