@@ -1,12 +1,6 @@
 package com.dekuofa.service;
 
-import com.dekuofa.model.BaseUserInfo;
-import com.dekuofa.model.UserInfo;
-import com.dekuofa.model.common.BeanMethod;
-import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
-import com.dekuofa.utils.CommonKit;
-import com.dekuofa.utils.DateUtil;
 import com.dekuofa.utils.ShaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -15,12 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-20 <br>
  */
 @SpringBootTest

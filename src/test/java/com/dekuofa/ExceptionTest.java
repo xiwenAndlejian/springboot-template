@@ -2,7 +2,7 @@ package com.dekuofa;
 
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-17 <br>
  */
 public class ExceptionTest {

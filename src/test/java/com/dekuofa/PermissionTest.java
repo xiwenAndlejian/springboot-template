@@ -1,16 +1,18 @@
 package com.dekuofa;
 
 import com.dekuofa.model.entity.User;
+import com.dekuofa.utils.DateUtil;
 import io.github.biezhi.anima.Anima;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
- * @author gx <br>
+ * @author dekuofa <br>
  * @date 2018-08-14 <br>
  */
 @Slf4j
@@ -84,6 +86,7 @@ public class PermissionTest {
 
     @Test
     public void test_2() {
+        System.out.println(DateUtil.newUnixMilliSecond());
     }
 
 }
