@@ -26,6 +26,10 @@ public class SysLogInfo extends Model {
     private String  message;
     private String  params;
 
+    public boolean getSuccess() {
+        return this.success;
+    }
+
     public SysLogInfo(boolean success) {
         this.success = success;
     }
