@@ -3,6 +3,7 @@ package com.dekuofa.model.entity;
 import com.dekuofa.model.BaseEntity;
 import com.dekuofa.model.param.SysRoleParam;
 import io.github.biezhi.anima.Model;
+import io.github.biezhi.anima.annotation.Column;
 import io.github.biezhi.anima.annotation.Table;
 import lombok.*;
 
@@ -18,6 +19,7 @@ import lombok.*;
 public class SysRole extends Model implements BaseEntity {
     private Integer id;
     private String  name;
+    @Column(name = "`desc`")
     private String  desc;
     private Long    createTime;
     private Long    modifyTime;
