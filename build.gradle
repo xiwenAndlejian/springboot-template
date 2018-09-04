@@ -48,6 +48,8 @@ ext {
     mysqlVersion = "6.0.6"
     animaVersion = "0.2.4-SNAPSHOT"
     shiroVersion = "shiro-spring:1.4.0"
+    thumbnailatorVersion = "0.4.8"
+    swaggerVerion = "2.9.2"
 }
 
 sourceSets {
@@ -70,13 +72,17 @@ dependencies {
     compile("org.apache.shiro:${shiroVersion}")
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
     compile("com.auth0:java-jwt:3.3.0")
+    // 文件上传
+    compile("commons-fileupload:commons-fileupload:1.3.1")
+    compile("commons-io:commons-io:2.3")
 
+    // 缩略图
+    compile group: 'net.coobird', name: 'thumbnailator', version: thumbnailatorVersion
 
-    compile("io.springfox:springfox-swagger2:2.9.2")
-    compile("io.springfox:springfox-swagger-ui:2.9.2")
+    compile("io.springfox:springfox-swagger2:${swaggerVerion}")
+    compile("io.springfox:springfox-swagger-ui:${swaggerVerion}")
 
     runtime("mysql:mysql-connector-java:${mysqlVersion}")
-
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile("org.springframework.boot:spring-boot-starter-test:${springVersion}")
