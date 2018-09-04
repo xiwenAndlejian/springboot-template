@@ -42,6 +42,11 @@ public interface Constants {
      */
      int DEFAULT_PAGE_NUM           = 1;
 
+    /**
+     * 默认分页页数大小
+     */
+    int DEFAULT_MAX_PAGE_SIZE          = 500;
+
      String DEFAULT_FILE_TYPE = ".file";
 
     /**
