@@ -29,3 +29,9 @@ out/
 
 # shell
 build.sh
+
+# PKS12
+keystore.p12
+
+# dev-setting
+application-dev.yml
