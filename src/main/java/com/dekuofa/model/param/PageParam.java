@@ -2,12 +2,14 @@ package com.dekuofa.model.param;
 
 import com.dekuofa.constant.Constants;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author dekuofa <br>
  * @date 2018-08-22 <br>
  */
 @Data
+@NoArgsConstructor
 public class PageParam {
     private int page  = Constants.DEFAULT_PAGE_NUM;
     private int limit = Constants.DEFAULT_PAGE_SIZE;
@@ -19,4 +21,15 @@ public class PageParam {
         }
         return page;
     }
+
+    public PageParam page(int page) {
+        this.page = page;
+        return this;
+    }
+
+    public PageParam limit(int limit) {
+        this.limit = limit;
+        return this;
+    }
+
 }
