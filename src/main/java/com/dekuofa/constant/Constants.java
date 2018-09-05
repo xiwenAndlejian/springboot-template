@@ -50,8 +50,14 @@ public interface Constants {
      */
     String TOKEN_KEY = "Authorization";
 
+    String TOKEN_HEAD = "Bearer ";
+
     /**
      * 手机号校验正则biaodashu
      */
     String REGEX_OF_MOBILE = "^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$";
+    /**
+     * 异常信息
+     */
+    String ERROR_MESSAGE = "服务异常";
 }

@@ -1,5 +1,6 @@
 package com.dekuofa.controller;
 
+import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.FileManager;
 import com.dekuofa.model.UserInfo;
@@ -41,13 +42,13 @@ public class FileController {
             FileInfo fileInfo = fileManager.upload(file, fileName, userInfo);
             return RestResponse.ok(fileInfo.toUploadResponse());
         } catch (Exception e) {
-            String msg = "服务器异常：文件上传失败";
+            String msg = Constants.ERROR_MESSAGE;
             if (e instanceof TipException) {
                 msg = e.getMessage();
             } else {
                 e.printStackTrace();
             }
-            return RestResponse.fail(msg);
+            return RestResponse.fail("文件上传失败：" + msg);
         }
     }
 
@@ -57,11 +58,11 @@ public class FileController {
             Page<FileInfo> payload = fileManager.query(pageParam, keyword);
             return RestResponse.ok(payload);
         } catch (Exception e) {
-            String msg = "查询失败";
+            String msg = Constants.ERROR_MESSAGE;
             if (e instanceof TipException) {
                 msg = e.getMessage();
             }
-            return RestResponse.fail("服务异常：" + msg);
+            return RestResponse.fail("查询失败：" + msg);
         }
     }
 }
