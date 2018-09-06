@@ -14,9 +14,11 @@ public interface ScrollImageManager {
 
     void modify(ScrollImage scrollImage);
 
-    void delete(ScrollImage scrollImage);
+    void delete(Integer id);
 
     Page<ScrollImage> query(PageParam pageParam, String... status);
 
     Page<ScrollImage> listAllOfNormal();
+
+    boolean isExist(Integer id);
 }

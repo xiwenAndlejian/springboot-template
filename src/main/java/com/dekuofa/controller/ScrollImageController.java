@@ -13,9 +13,7 @@ import io.github.biezhi.anima.page.Page;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -52,10 +50,60 @@ public class ScrollImageController {
         }
     }
 
+    @RequiresAuthentication
+    @DeleteMapping("/scrollImage/{id}")
+    public RestResponse<?> delete(UserInfo userInfo,
+                                  @PathVariable("id") Integer id) {
+
+        if (!scrollImageManager.isExist(id)) {
+            return RestResponse.fail("更新失败：更新对象不存在");
+        }
+        try {
+            scrollImageManager.delete(id);
+            return RestResponse.ok();
+        } catch (Exception e) {
+            String msg = Constants.ERROR_MESSAGE;
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            } else {
+                e.printStackTrace();
+            }
+            return RestResponse.fail("删除滚动图失败：" + msg);
+        }
+    }
+
+    @RequiresAuthentication
+    @PutMapping("/scrollImage/{id}")
+    public RestResponse<?> modify(UserInfo userInfo,
+                                  @PathVariable("id") Integer id,
+                                  @Valid ScrollImageParam param) {
+
+        if (!scrollImageManager.isExist(id)) {
+            return RestResponse.fail("更新失败：更新对象不存在");
+        }
+
+        ScrollImage scrollImage = new ScrollImage(param);
+        scrollImage.setId(id);
+        scrollImage.setModifyInfo(userInfo, DateUtil.newUnixMilliSecond());
+
+        try {
+            scrollImageManager.modify(scrollImage);
+            return RestResponse.ok();
+        } catch (Exception e) {
+            String msg = Constants.ERROR_MESSAGE;
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            } else {
+                e.printStackTrace();
+            }
+            return RestResponse.fail("更新滚动图失败：" + msg);
+        }
+    }
+
+    @RequiresAuthentication
     @GetMapping("/scrollImage")
     public RestResponse<?> query(PageParam pageParam,
-                                 @ApiParam("normal=正常,deleted=已删除,baned=被禁用")
-                                         String status) {
+                                 @ApiParam("normal=正常,deleted=已删除,baned=被禁用") String status) {
         try {
             Page<ScrollImage> payload = scrollImageManager.query(pageParam, status);
             return RestResponse.ok(payload);
@@ -65,6 +113,20 @@ public class ScrollImageController {
                 msg = e.getMessage();
             }
             return RestResponse.fail("查询失败：" + msg);
+        }
+    }
+
+    @GetMapping("/scrollImage/list")
+    public RestResponse<?> listAllOfNormal() {
+        try {
+            Page<ScrollImage> payload = scrollImageManager.listAllOfNormal();
+            return RestResponse.ok(payload);
+        } catch (Exception e) {
+            String msg = Constants.ERROR_MESSAGE;
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            }
+            return RestResponse.fail("获取滚动图列表失败：" + msg);
         }
     }
 }

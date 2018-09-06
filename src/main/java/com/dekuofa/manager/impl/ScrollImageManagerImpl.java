@@ -54,9 +54,9 @@ public class ScrollImageManagerImpl implements ScrollImageManager {
     }
 
     @Override
-    public void delete(ScrollImage scrollImage) {
+    public void delete(Integer id) {
         try {
-            scrollImageService.delete(scrollImage);
+            scrollImageService.deleteById(id);
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof TipException) {
@@ -78,5 +78,13 @@ public class ScrollImageManagerImpl implements ScrollImageManager {
                 .page(Constants.FIRST_PAGE_NUM)
                 .limit(Constants.DEFAULT_MAX_PAGE_SIZE);
         return scrollImageService.query(param, Status.NORMAL);
+    }
+
+    @Override
+    public boolean isExist(Integer id) {
+        if (id == null) {
+            return false;
+        }
+        return scrollImageService.countById(id) >= 1;
     }
 }

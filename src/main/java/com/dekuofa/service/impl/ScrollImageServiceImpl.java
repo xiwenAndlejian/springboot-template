@@ -14,6 +14,7 @@ import java.beans.Transient;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static io.github.biezhi.anima.Anima.delete;
 import static io.github.biezhi.anima.Anima.select;
 
 /**
@@ -31,6 +32,12 @@ public class ScrollImageServiceImpl implements ScrollImageService {
             query.in(ScrollImage::getStatus, Arrays.asList(status));
         }
         return query.page(pageParam.getPage(), pageParam.getLimit());
+    }
+
+    @Override
+    public int countById(Integer id) {
+        return (int) select().from(ScrollImage.class)
+                .where(ScrollImage::getId).eq(id).count();
     }
 
     @Transient
@@ -51,8 +58,8 @@ public class ScrollImageServiceImpl implements ScrollImageService {
 
     @Transient
     @Override
-    public void delete(ScrollImage scrollImage) {
-        scrollImage.delete();
+    public void deleteById(Integer id) {
+        delete().from(ScrollImage.class).byId(id);
     }
 
     @Override
