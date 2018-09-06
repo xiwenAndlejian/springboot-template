@@ -70,14 +70,10 @@ public class FileManagerImpl implements FileManager {
         String url = "/" + day + "/" + uuid;
 
         FileInfo fileInfo =
-                new FileInfo(fileName, uuid, url,  size, fileType, Status.NORMAL);
+                new FileInfo(fileName, uuid, url, size, fileType, Status.NORMAL);
         Long now = DateUtil.newUnixMilliSecond();
-        fileInfo.setCreateTime(now);
-        fileInfo.setModifyTime(now);
-        fileInfo.setCreatorId(userInfo.getUserId());
-        fileInfo.setCreatorName(userInfo.getNickName());
-        fileInfo.setModifierId(userInfo.getUserId());
-        fileInfo.setModifierName(userInfo.getNickName());
+        fileInfo.setModifyInfo(userInfo, now)
+                .setCreateInfo(userInfo, now);
 
         fileService.save(fileInfo);
         // 日志打印

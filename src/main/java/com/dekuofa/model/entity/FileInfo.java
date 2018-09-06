@@ -1,5 +1,6 @@
 package com.dekuofa.model.entity;
 
+import com.dekuofa.model.BaseEntity;
 import com.dekuofa.model.response.FileUploadResponse;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Table;
@@ -7,7 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 
 /**
  * @author dekuofa <br>
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @NoArgsConstructor
-public class FileInfo extends Model {
+public class FileInfo extends Model implements BaseEntity {
 
     private Integer id;
     private String  name;

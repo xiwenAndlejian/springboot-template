@@ -53,8 +53,8 @@ public class UserController {
             String password = ShaUtil.sha512Encode(user.getPassword());
             user.setPassword(password);
             Long now = DateUtil.newUnixMilliSecond();
-            user.setCreateTime(now);
-            user.setModifyTime(now);
+            user.setCreateInfo(userInfo, now)
+                    .setModifyInfo(userInfo, now);
             int id = userManager.addUser(user, userInfo);
             return RestResponse.ok(id);
         } catch (Exception e) {

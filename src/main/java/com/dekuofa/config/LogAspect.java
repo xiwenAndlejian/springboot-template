@@ -16,12 +16,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -63,6 +58,17 @@ public class LogAspect {
     @AfterThrowing(pointcut = "log()", throwing = "e")
     public void exception(JoinPoint point, Exception e) {
         Method method = ((MethodSignature) point.getSignature()).getMethod();
+        UserInfo userInfo = getUserInfo(point);
+        if (userInfo != null && !userInfo.isEmpty()) {
+            log.info("当前用户:{}", userInfo.getNickName());
+            String action = getAction(method);
+            SysLogInfo logInfo = SysLogInfo.fail().userInfo(userInfo)
+                    .action(action)
+                    .createTime(DateUtil.newUnixMilliSecond());
+            // todo 保存异常的参数
+            logManager.save(logInfo);
+
+        }
         log.info("{}: exception cause: {}", getAction(method), e.getMessage());
     }
 

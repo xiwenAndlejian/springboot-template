@@ -36,16 +36,9 @@ public class ScrollImageController {
     @RequiresAuthentication
     @PostMapping("/scrollImage")
     public RestResponse<?> save(UserInfo userInfo, @Valid ScrollImageParam param) {
-
-        ScrollImage image = new ScrollImage(param);
-
         Long now = DateUtil.newUnixMilliSecond();
-        image.setCreateTime(now);
-        image.setModifyTime(now);
-        image.setCreatorId(userInfo.getUserId());
-        image.setModifierId(userInfo.getUserId());
-        image.setCreatorName(userInfo.getNickName());
-        image.setModifierName(userInfo.getNickName());
+        ScrollImage image = new ScrollImage(param)
+                .setModifyInfo(userInfo, now).setCreateInfo(userInfo, now);
 
         try {
             Integer id = scrollImageManager.save(image);

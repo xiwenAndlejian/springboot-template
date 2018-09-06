@@ -1,5 +1,6 @@
 package com.dekuofa.model.entity;
 
+import com.dekuofa.model.BaseEntity;
 import com.dekuofa.model.param.ScrollImageParam;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Table;
@@ -16,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @Table(name = "t_scroll_image")
-public class ScrollImage extends Model {
+public class ScrollImage extends Model implements BaseEntity {
     private Integer id;
     /**
      * 图片地址
