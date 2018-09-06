@@ -3,7 +3,6 @@ buildscript {
         //本地maven
         mavenLocal()
         maven { url "~/.m2/repository/" }
-
         jcenter()
     }
     dependencies {
@@ -22,6 +21,7 @@ version = "0.0.1"
 
 allprojects {
     repositories {
+        mavenLocal()
         jcenter()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
@@ -47,6 +47,7 @@ ext {
     lombokVersion = "1.16.18"
     mysqlVersion = "6.0.6"
     animaVersion = "0.2.4-SNAPSHOT"
+    animaBetaVersion = "0.2.5-BETA"
     shiroVersion = "shiro-spring:1.4.0"
     thumbnailatorVersion = "0.4.8"
     swaggerVerion = "2.9.2"
@@ -67,7 +68,7 @@ dependencies {
     // 热部署
     compile("org.springframework.boot:spring-boot-devtools:${springVersion}")
     // 数据库
-    compile ("io.github.biezhi:anima:${animaVersion}")
+    compile ("io.github.biezhi:anima:${animaBetaVersion}")
     // shiro权限框架
     compile("org.apache.shiro:${shiroVersion}")
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
