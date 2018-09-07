@@ -5,6 +5,7 @@ import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.ScrollImageManager;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.ScrollImage;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.param.ScrollImageParam;
 import com.dekuofa.model.response.RestResponse;
@@ -37,7 +38,7 @@ public class ScrollImageController {
         Long now = DateUtil.newUnixMilliSecond();
         ScrollImage image = new ScrollImage(param)
                 .setModifyInfo(userInfo, now).setCreateInfo(userInfo, now);
-
+        image.setStatus(BaseStatus.NORMAL);
         try {
             Integer id = scrollImageManager.save(image);
             return RestResponse.ok(id);
@@ -56,7 +57,7 @@ public class ScrollImageController {
                                   @PathVariable("id") Integer id) {
 
         if (!scrollImageManager.isExist(id)) {
-            return RestResponse.fail("更新失败：更新对象不存在");
+            return RestResponse.fail("删除失败：更新对象不存在");
         }
         try {
             scrollImageManager.delete(id);
@@ -68,7 +69,7 @@ public class ScrollImageController {
             } else {
                 e.printStackTrace();
             }
-            return RestResponse.fail("删除滚动图失败：" + msg);
+            return RestResponse.fail("删除失败：" + msg);
         }
     }
 
@@ -85,7 +86,6 @@ public class ScrollImageController {
         ScrollImage scrollImage = new ScrollImage(param);
         scrollImage.setId(id);
         scrollImage.setModifyInfo(userInfo, DateUtil.newUnixMilliSecond());
-
         try {
             scrollImageManager.modify(scrollImage);
             return RestResponse.ok();
@@ -96,7 +96,7 @@ public class ScrollImageController {
             } else {
                 e.printStackTrace();
             }
-            return RestResponse.fail("更新滚动图失败：" + msg);
+            return RestResponse.fail("更新失败：" + msg);
         }
     }
 

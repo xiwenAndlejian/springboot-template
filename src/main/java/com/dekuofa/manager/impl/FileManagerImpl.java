@@ -6,6 +6,7 @@ import com.dekuofa.manager.FileManager;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.common.Status;
 import com.dekuofa.model.entity.FileInfo;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.service.FileService;
 import com.dekuofa.utils.DateUtil;
@@ -70,7 +71,7 @@ public class FileManagerImpl implements FileManager {
         String url = "/" + day + "/" + uuid;
 
         FileInfo fileInfo =
-                new FileInfo(fileName, uuid, url, size, fileType, Status.NORMAL);
+                new FileInfo(fileName, uuid, url, size, fileType, BaseStatus.NORMAL);
         Long now = DateUtil.newUnixMilliSecond();
         fileInfo.setModifyInfo(userInfo, now)
                 .setCreateInfo(userInfo, now);

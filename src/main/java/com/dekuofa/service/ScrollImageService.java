@@ -1,6 +1,7 @@
 package com.dekuofa.service;
 
 import com.dekuofa.model.entity.ScrollImage;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import io.github.biezhi.anima.page.Page;
 
@@ -10,7 +11,7 @@ import io.github.biezhi.anima.page.Page;
  */
 public interface ScrollImageService extends BaseService<ScrollImage, Integer> {
 
-    Page<ScrollImage> query(PageParam pageParam, String... status);
+    Page<ScrollImage> query(PageParam pageParam, BaseStatus... status);
 
     int countById(Integer id);
 

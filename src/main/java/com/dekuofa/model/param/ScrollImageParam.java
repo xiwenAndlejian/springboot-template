@@ -1,5 +1,7 @@
 package com.dekuofa.model.param;
 
+import com.dekuofa.model.enums.BaseStatus;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -26,5 +28,6 @@ public class ScrollImageParam {
      */
     @NotNull(message = "排序值不能为空")
     private Integer order;
-
+    @ApiParam(allowEmptyValue = true)
+    private BaseStatus status;
 }

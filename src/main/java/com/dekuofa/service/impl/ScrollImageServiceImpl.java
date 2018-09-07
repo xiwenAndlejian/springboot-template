@@ -3,6 +3,7 @@ package com.dekuofa.service.impl;
 import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.model.entity.ScrollImage;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.service.ScrollImageService;
 import io.github.biezhi.anima.core.AnimaQuery;
@@ -26,7 +27,7 @@ public class ScrollImageServiceImpl implements ScrollImageService {
 
 
     @Override
-    public Page<ScrollImage> query(PageParam pageParam,String... status) {
+    public Page<ScrollImage> query(PageParam pageParam, BaseStatus... status) {
         AnimaQuery<ScrollImage> query = select().from(ScrollImage.class);
         if (Objects.nonNull(status) && status.length > 0) {
             query.in(ScrollImage::getStatus, Arrays.asList(status));

@@ -1,12 +1,16 @@
 package com.dekuofa.model.entity;
 
 import com.dekuofa.model.BaseEntity;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.ScrollImageParam;
 import io.github.biezhi.anima.Model;
+import io.github.biezhi.anima.annotation.EnumMapping;
 import io.github.biezhi.anima.annotation.Table;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.StringUtils;
 
 /**
  * 滚动图
@@ -33,14 +37,18 @@ public class ScrollImage extends Model implements BaseEntity {
      * 排序
      */
     private Integer order;
-    @ApiParam(allowableValues = "normal=正常,deleted=已删除,baned=被禁用")
-    private String  status;
-    private Long    createTime;
-    private Long    modifyTime;
-    private Integer creatorId;
-    private String  creatorName;
-    private Integer modifierId;
-    private String  modifierName;
+
+    /**
+     * 状态 normal=正常,deleted=已删除
+     */
+    @EnumMapping("getCode")
+    private BaseStatus status;
+    private Long       createTime;
+    private Long       modifyTime;
+    private Integer    creatorId;
+    private String     creatorName;
+    private Integer    modifierId;
+    private String     modifierName;
 
     public ScrollImage() {
     }
@@ -50,5 +58,6 @@ public class ScrollImage extends Model implements BaseEntity {
         this.order = param.getOrder();
         this.fileId = param.getFileId();
         this.hyperlinks = param.getHyperlinks();
+
     }
 }
