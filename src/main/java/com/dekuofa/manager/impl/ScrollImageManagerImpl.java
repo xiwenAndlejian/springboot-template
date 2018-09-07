@@ -5,6 +5,7 @@ import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.ScrollImageManager;
 import com.dekuofa.model.common.Status;
 import com.dekuofa.model.entity.ScrollImage;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.service.ScrollImageService;
 import io.github.biezhi.anima.page.Page;
@@ -68,7 +69,7 @@ public class ScrollImageManagerImpl implements ScrollImageManager {
     }
 
     @Override
-    public Page<ScrollImage> query(PageParam pageParam, String... status) {
+    public Page<ScrollImage> query(PageParam pageParam, BaseStatus... status) {
         return scrollImageService.query(pageParam, status);
     }
 
@@ -77,7 +78,7 @@ public class ScrollImageManagerImpl implements ScrollImageManager {
         PageParam param = new PageParam()
                 .page(Constants.FIRST_PAGE_NUM)
                 .limit(Constants.DEFAULT_MAX_PAGE_SIZE);
-        return scrollImageService.query(param, Status.NORMAL);
+        return scrollImageService.query(param, BaseStatus.NORMAL);
     }
 
     @Override

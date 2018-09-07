@@ -103,7 +103,7 @@ public class ScrollImageController {
     @RequiresAuthentication
     @GetMapping("/scrollImage")
     public RestResponse<?> query(PageParam pageParam,
-                                 @ApiParam("normal=正常,deleted=已删除,baned=被禁用") String status) {
+                                 @ApiParam(allowEmptyValue = true) BaseStatus status) {
         try {
             Page<ScrollImage> payload = scrollImageManager.query(pageParam, status);
             return RestResponse.ok(payload);

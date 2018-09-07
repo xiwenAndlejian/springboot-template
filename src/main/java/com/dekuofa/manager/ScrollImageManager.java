@@ -1,6 +1,7 @@
 package com.dekuofa.manager;
 
 import com.dekuofa.model.entity.ScrollImage;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import io.github.biezhi.anima.page.Page;
 
@@ -16,7 +17,7 @@ public interface ScrollImageManager {
 
     void delete(Integer id);
 
-    Page<ScrollImage> query(PageParam pageParam, String... status);
+    Page<ScrollImage> query(PageParam pageParam, BaseStatus... status);
 
     Page<ScrollImage> listAllOfNormal();
 
