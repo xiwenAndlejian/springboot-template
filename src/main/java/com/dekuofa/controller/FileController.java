@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @Slf4j
-public class FileController {
+public class FileController implements BaseController{
     private FileManager fileManager;
 
     @Autowired
@@ -42,12 +42,7 @@ public class FileController {
             FileInfo fileInfo = fileManager.upload(file, fileName, userInfo);
             return RestResponse.ok(fileInfo.toUploadResponse());
         } catch (Exception e) {
-            String msg = Constants.ERROR_MESSAGE;
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                e.printStackTrace();
-            }
+            String msg = getErrorMessage(e);
             return RestResponse.fail("文件上传失败：" + msg);
         }
     }
@@ -58,10 +53,7 @@ public class FileController {
             Page<FileInfo> payload = fileManager.query(pageParam, keyword);
             return RestResponse.ok(payload);
         } catch (Exception e) {
-            String msg = Constants.ERROR_MESSAGE;
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            }
+            String msg = getErrorMessage(e);
             return RestResponse.fail("查询失败：" + msg);
         }
     }

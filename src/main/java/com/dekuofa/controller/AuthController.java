@@ -1,20 +1,28 @@
 package com.dekuofa.controller;
 
 import com.dekuofa.annotation.SysLog;
+import com.dekuofa.manager.RoleManager;
 import com.dekuofa.manager.UserManager;
 import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.enums.UserType;
 import com.dekuofa.model.param.LoginParam;
 import com.dekuofa.model.response.LoginResponse;
 import com.dekuofa.model.response.RestResponse;
+import com.dekuofa.model.response.UserInfoResponse;
 import com.dekuofa.utils.JwtUtil;
 import com.dekuofa.utils.ShaUtil;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author dekuofa <br>
@@ -22,17 +30,19 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @RestController
 @Slf4j
-public class AuthController {
+public class AuthController implements BaseController {
     private UserManager userManager;
+    private RoleManager roleManager;
 
     @Autowired
-    public AuthController(UserManager userManager) {
+    public AuthController(UserManager userManager, RoleManager roleManager) {
         this.userManager = userManager;
+        this.roleManager = roleManager;
     }
 
     @SysLog(action = "登陆")
     @PostMapping("/login")
-    public RestResponse<LoginResponse> login(@RequestBody LoginParam param,
+    public RestResponse<?> login(@RequestBody LoginParam param,
                                              @ApiIgnore @ModelAttribute("ip") String ip) {
         if (param == null || param.getUsername() == null) {
             throw new UnauthorizedException("用户名或密码不能为空");
@@ -58,6 +68,28 @@ public class AuthController {
             return RestResponse.ok(response);
         }
         return RestResponse.fail("用户名或密码错误");
+    }
+
+    @PostMapping("/user/logout")
+    public RestResponse<?> logout(@ApiParam(hidden = true) UserInfo userInfo) {
+        log.info("用户: {} 已下线",userInfo.getNickName());
+        return RestResponse.ok();
+    }
+
+    @RequiresAuthentication
+    @GetMapping("/user/info")
+    public RestResponse<?> getUserInfo(@ApiParam(hidden = true) UserInfo userInfo) {
+        if (userInfo == null) {
+            return RestResponse.fail("token校验失败");
+        }
+        Integer             userId = userInfo.getUserId();
+        Collection<String> roles  = roleManager.roles(userId)
+                .stream().map(SysRole::getName)
+                .collect(Collectors.toList());
+        UserInfoResponse response =
+                new UserInfoResponse().name(userInfo.getNickName()).roles(roles)
+                        .avatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        return RestResponse.ok(response);
     }
 
     @RequestMapping(value = "/401")

@@ -23,7 +23,7 @@ import javax.validation.Valid;
  * @date 2018-09-04 <br>
  */
 @RestController
-public class ScrollImageController {
+public class ScrollImageController implements BaseController {
 
     private ScrollImageManager scrollImageManager;
 
@@ -108,10 +108,7 @@ public class ScrollImageController {
             Page<ScrollImage> payload = scrollImageManager.query(pageParam, status);
             return RestResponse.ok(payload);
         } catch (Exception e) {
-            String msg = Constants.ERROR_MESSAGE;
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            }
+            String msg = getErrorMessage(e);
             return RestResponse.fail("查询失败：" + msg);
         }
     }
@@ -122,10 +119,7 @@ public class ScrollImageController {
             Page<ScrollImage> payload = scrollImageManager.listAllOfNormal();
             return RestResponse.ok(payload);
         } catch (Exception e) {
-            String msg = Constants.ERROR_MESSAGE;
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            }
+            String msg = getErrorMessage(e);
             return RestResponse.fail("获取滚动图列表失败：" + msg);
         }
     }

@@ -22,7 +22,7 @@ import static com.dekuofa.utils.CommonValidator.validate;
  * @date 2018-08-28 <br>
  */
 @RestController
-public class RoleController {
+public class RoleController implements BaseController {
     private RoleManager roleManager;
 
     @Autowired

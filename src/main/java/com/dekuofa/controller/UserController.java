@@ -1,18 +1,22 @@
 package com.dekuofa.controller;
 
 import com.dekuofa.annotation.SysLog;
+import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.manager.UserManager;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.param.UserParam;
 import com.dekuofa.model.response.RestResponse;
+import com.dekuofa.model.response.UserInfoResponse;
 import com.dekuofa.utils.DateUtil;
 import com.dekuofa.utils.ShaUtil;
 import io.github.biezhi.anima.page.Page;
+import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -30,7 +34,7 @@ import static com.dekuofa.utils.CommonKit.difference;
  * @date 2018-08-22 <br>
  */
 @RestController
-public class UserController {
+public class UserController implements BaseController{
 
     private UserManager userManager;
     private RoleManager roleManager;
@@ -53,15 +57,17 @@ public class UserController {
             String password = ShaUtil.sha512Encode(user.getPassword());
             user.setPassword(password);
             Long now = DateUtil.newUnixMilliSecond();
+            user.setStatus(BaseStatus.INTI);
             user.setCreateInfo(userInfo, now)
                     .setModifyInfo(userInfo, now);
+            if (StringUtils.isEmpty(user.getAvatar())) {
+                user.setAvatar(Constants.DEFAULT_USER_AVATAR);
+            }
             int id = userManager.addUser(user, userInfo);
             return RestResponse.ok(id);
         } catch (Exception e) {
-            if (e instanceof TipException) {
-                return RestResponse.fail(e.getMessage());
-            }
-            return RestResponse.fail("新增用户失败:" + e.getMessage());
+            String msg = getErrorMessage(e);
+            return RestResponse.fail(msg);
         }
     }
 
@@ -69,14 +75,44 @@ public class UserController {
     @RequiresAuthentication
     @PutMapping("/user/{id}")
     public RestResponse<?> updateUser(@PathVariable("id") Integer userId,
-                                      @RequestBody User user,
+                                      @Valid @RequestBody UserParam param,
                                       @ModelAttribute UserInfo userInfo) {
         if (!userInfo.isCurrentUser(userId)) {
             return RestResponse.fail("无法修改其他用户信息");
         }
+        User user = new User(param);
+        if (StringUtils.isEmpty(user.getAvatar())) {
+            user.setAvatar(Constants.DEFAULT_USER_AVATAR);
+        }
         user.setId(userId);
-        userManager.updateUser(user, userInfo);
-        return RestResponse.ok();
+        try {
+            userManager.updateUser(user, userInfo);
+            return RestResponse.ok();
+        } catch (Exception e) {
+            String msg = getErrorMessage(e);
+            return RestResponse.fail(msg);
+        }
+    }
+
+    // todo 修改用户状态
+    @PutMapping("/user/{id}/status")
+    public RestResponse<?> changeStatus(@PathVariable("id") Integer id,
+                                        @RequestParam BaseStatus status) {
+        User user = new User();
+        user.setId(id);
+        user.setStatus(status);
+
+        try {
+            userManager.changeStatus(user);
+            return RestResponse.ok();
+        } catch (Exception e) {
+            String msg = Constants.ERROR_MESSAGE;
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            }
+            e.printStackTrace();
+            return RestResponse.fail(msg);
+        }
     }
 
     @GetMapping("/user")
@@ -109,12 +145,7 @@ public class UserController {
         try {
             roleManager.changeUserRoles(userId, addRoles, deleteRoles);
         } catch (Exception e) {
-            String msg;
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                msg = "服务异常：修改角色失败";
-            }
+            String msg = getErrorMessage(e);
             return RestResponse.fail(msg);
         }
         return RestResponse.ok();

@@ -1,11 +1,13 @@
 package com.dekuofa.model.entity;
 
 import com.dekuofa.model.BaseEntity;
+import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.UserParam;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Column;
+import io.github.biezhi.anima.annotation.EnumMapping;
 import io.github.biezhi.anima.annotation.Ignore;
 import io.github.biezhi.anima.annotation.Table;
 import lombok.Data;
@@ -31,15 +33,21 @@ public class User extends Model implements BaseEntity {
     @Ignore
     private Collection<Permission> permissions;
 
-    private Integer id;
+    private Integer    id;
     @Column(name = "user_name")
-    private String  username;
+    private String     username;
     @JsonIgnore // json返回值中忽略
     @JsonProperty // 解决使用 @RequestBody 时，password为空的情况
-    private String  password;
-    private String  nickName;
-    private Long    lastLoginTime;
-    private String  lastLoginIp;
+    private String     password;
+    private String     nickName;
+    /**
+     * 头像
+     */
+    private String     avatar;
+    private Long       lastLoginTime;
+    private String     lastLoginIp;
+    @EnumMapping("getCode")
+    private BaseStatus status;
 
     private Long    createTime;
     private Long    modifyTime;

@@ -84,7 +84,7 @@ public class RestResponse<T> {
     }
 
     public static <T> RestResponse<T> fail(String message) {
-        return new RestResponse<T>().success(false).message(message);
+        return new RestResponse<T>().success(false).code(1).message(message);
     }
 
     public static <T> RestResponse fail(int code, String message) {

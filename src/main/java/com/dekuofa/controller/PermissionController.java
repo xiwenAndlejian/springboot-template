@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2018-08-28 <br>
  */
 @RestController
-public class PermissionController {
+public class PermissionController implements BaseController {
 
     private PermissionManager permissionManager;
 
@@ -40,13 +40,7 @@ public class PermissionController {
             permissionManager.changePermissions(id, permissionIds);
             return RestResponse.ok();
         }  catch (Exception e) {
-
-            String msg;
-            if (e instanceof TipException) {
-                msg = e.getMessage();
-            } else {
-                msg = "修改权限失败：服务异常";
-            }
+            String msg = getErrorMessage(e);
             return RestResponse.fail(msg);
         }
     }

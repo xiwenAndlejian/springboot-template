@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018-08-30 <br>
  */
 @RestController
-public class LogController {
+public class LogController implements BaseController {
 
     private LogManager logManager;
 

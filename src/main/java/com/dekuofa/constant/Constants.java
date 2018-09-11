@@ -44,13 +44,16 @@ public interface Constants {
     int DEFAULT_MAX_PAGE_SIZE      = 500;
 
     String DEFAULT_FILE_TYPE = ".file";
-
     /**
      * token key
      */
     String TOKEN_KEY = "Authorization";
 
     String TOKEN_HEAD = "Bearer ";
+    /**
+     * 默认头像地址
+     */
+    String DEFAULT_USER_AVATAR = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
 
     /**
      * 手机号校验正则biaodashu

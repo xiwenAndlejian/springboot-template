@@ -29,10 +29,11 @@ public interface BaseEntity {
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-        return (T) this;
+        @SuppressWarnings("unchecked") T result = (T) this;
+        return result;
     }
 
-    default <T extends BaseEntity> T setCreateInfo(BaseUserInfo userInfo, Long time)  {
+    default <T extends BaseEntity> T setCreateInfo(BaseUserInfo userInfo, Long time) {
         try {
             BeanUtils.setProperty(this, "createTime", time);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -49,7 +50,8 @@ public interface BaseEntity {
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-        return (T) this;
+        @SuppressWarnings("unchecked") T result = (T) this;
+        return result;
     }
 
 

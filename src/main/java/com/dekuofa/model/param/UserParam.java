@@ -2,7 +2,9 @@ package com.dekuofa.model.param;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 
+import javax.validation.constraints.NotEmpty;
 
 
 /**
@@ -19,4 +21,6 @@ public class UserParam {
     private String password;
     @Length(min = 2, max = 30, message = "昵称不符合规范：长度 {min}-{max}")
     private String nickName;
+    @URL
+    private String avatar;
 }

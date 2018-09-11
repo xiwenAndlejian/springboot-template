@@ -1,5 +1,6 @@
 package com.dekuofa.service.impl;
 
+import com.dekuofa.exception.TipException;
 import com.dekuofa.model.BaseUserInfo;
 import com.dekuofa.model.entity.User;
 
@@ -24,16 +25,6 @@ import static io.github.biezhi.anima.Anima.update;
 @Service
 public class UserServiceImpl implements UserService {
 
-    public User getUser(String username) {
-        if (StringUtils.isEmpty(username)) {
-            return null;
-        } else {
-            User user = select().from(User.class)
-                    .where("user_name", username).one();
-            return user;
-        }
-    }
-
     @Override
     public User findByUsername(String username) {
         User user = select().from(User.class)
@@ -44,11 +35,11 @@ public class UserServiceImpl implements UserService {
     @Transient
     @Override
     public Integer addUser(User user, BaseUserInfo userInfo) {
-
-
-
         try {
             Integer id = save(user).asInt();
+            if (null == id) {
+                throw new TipException("主键id获取失败");
+            }
             return id;
         } catch (Exception e) {
             throw e;
@@ -87,7 +78,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void login(Integer userId, String ip) {
         update().from(User.class)
-                .set(User::getLastLoginIp, "ip")
+                .set(User::getLastLoginIp, ip)
                 .set(User::getLastLoginTime, DateUtil.newUnixMilliSecond())
                 .where(User::getId).eq(userId).execute();
     }

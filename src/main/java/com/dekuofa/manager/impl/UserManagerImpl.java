@@ -75,7 +75,6 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void updateUser(User user, BaseUserInfo userInfo) {
 
-
         User update = userService.getUser(user.getId());
         if (update == null) {
             throw new TipException("更新失败：当前用户不存在");
@@ -99,6 +98,18 @@ public class UserManagerImpl implements UserManager {
     @Override
     public boolean isExist(Integer userId) {
         return userService.isExist(userId);
+    }
+
+    @Override
+    public void changeStatus(User user) {
+        if (!isExist(user.getId())) {
+            throw new TipException("当前用户不存在");
+        }
+        User change = new User();
+        change.setId(user.getId());
+        change.setStatus(user.getStatus());
+
+        userService.modify(change);
     }
 
 }
