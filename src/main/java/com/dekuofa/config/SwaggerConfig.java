@@ -1,5 +1,6 @@
 package com.dekuofa.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -23,11 +24,18 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    @Value("${swagger.host}")
+    private String host;
+    @Value("${swagger.path}")
+    private String path;
+
     @Bean
     public Docket api(ApiInfo apiInfo) {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)
+                .host(host)
+                .pathMapping(path)
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .securityContexts(securityContexts())
                 .select()
