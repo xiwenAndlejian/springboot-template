@@ -112,4 +112,9 @@ public class UserManagerImpl implements UserManager {
         userService.modify(change);
     }
 
+    @Override
+    public User detail(Integer userId) {
+        return userService.getUser(userId);
+    }
+
 }

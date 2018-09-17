@@ -121,6 +121,12 @@ public class UserController implements BaseController{
                 .ok(userManager.queryUser(username, pageParam));
     }
 
+    @GetMapping("/user/{id}")
+    public RestResponse<?> detail(@PathVariable Integer id) {
+        User user = userManager.detail(id);
+        return RestResponse.ok(user);
+    }
+
     @GetMapping("/user/{id}/role")
     public RestResponse<?> userRoles(@PathVariable("id") Integer userId) {
         // todo 应该修改为只能当前用户和admin角色查询

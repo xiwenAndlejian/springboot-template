@@ -36,4 +36,6 @@ public interface UserManager {
 
     void changeStatus(User user);
 
+    User detail(Integer userId);
+
 }

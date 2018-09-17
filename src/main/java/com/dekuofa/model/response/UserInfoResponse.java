@@ -12,13 +12,15 @@ import java.util.Collection;
  */
 @Data
 public class UserInfoResponse {
-    private String name;
+    private Integer id;
+    private String  name;
     // 头像
-    private String avatar;
+    private String  avatar;
 
     private Collection<String> roles;
 
-    public UserInfoResponse() { }
+    public UserInfoResponse() {
+    }
 
     public UserInfoResponse(String name, String avatar) {
         this.name = name;
@@ -37,6 +39,11 @@ public class UserInfoResponse {
 
     public UserInfoResponse roles(Collection<String> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public UserInfoResponse id(Integer id) {
+        this.id = id;
         return this;
     }
 }
