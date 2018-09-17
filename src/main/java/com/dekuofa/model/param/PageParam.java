@@ -16,10 +16,10 @@ public class PageParam {
 
     public int getLimit() {
         // 限制最大页数
-        if (page > Constants.DEFAULT_MAX_PAGE_SIZE) {
-            this.page = Constants.DEFAULT_MAX_PAGE_SIZE;
+        if (limit > Constants.DEFAULT_MAX_PAGE_SIZE) {
+            this.limit = Constants.DEFAULT_MAX_PAGE_SIZE;
         }
-        return page;
+        return limit;
     }
 
     public PageParam page(int page) {
