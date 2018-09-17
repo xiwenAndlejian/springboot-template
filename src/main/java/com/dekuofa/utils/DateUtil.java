@@ -3,6 +3,7 @@ package com.dekuofa.utils;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -32,7 +33,8 @@ public class DateUtil {
      * @return 根据传入的pattern 得到当前日期
      */
     public static String newDate(String pattern) {
-        return new SimpleDateFormat(pattern).format(LocalDate.now());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return LocalDate.now().format(formatter);
     }
 
     /**
