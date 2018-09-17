@@ -43,7 +43,6 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileInfo upload(MultipartFile fileUpload, String fileName, UserInfo userInfo) {
-        // todo 文件上传
         // 获取当前日期
         String day = DateUtil.newDate();
         // 如果获取不到，则使用默认文件类型

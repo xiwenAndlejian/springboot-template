@@ -1,5 +1,6 @@
 package com.dekuofa.controller;
 
+import com.dekuofa.annotation.SysLog;
 import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.FileManager;
@@ -8,6 +9,7 @@ import com.dekuofa.model.entity.FileInfo;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.response.RestResponse;
 import io.github.biezhi.anima.page.Page;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +31,10 @@ public class FileController implements BaseController{
         this.fileManager = fileManager;
     }
 
+    @SysLog(action = "文件上传")
     @PostMapping("/upload")
     public RestResponse<?> upload(
-            @ModelAttribute(binding = false) UserInfo userInfo,
+            @ApiParam(hidden = true) UserInfo userInfo,
             @RequestParam("file_name") String fileName,
             MultipartFile file) {
         log.debug("当前用户：" + userInfo);
