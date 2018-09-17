@@ -87,7 +87,7 @@ public class AuthController implements BaseController {
                 .stream().map(SysRole::getName)
                 .collect(Collectors.toList());
         UserInfoResponse response =
-                new UserInfoResponse().name(userInfo.getNickName()).roles(roles)
+                new UserInfoResponse().name(userInfo.getNickName()).roles(roles).id(userId)
                         .avatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         return RestResponse.ok(response);
     }
