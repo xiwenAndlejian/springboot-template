@@ -41,7 +41,6 @@ public class ScrollImage extends Model implements BaseEntity {
     /**
      * 状态 normal=正常,deleted=已删除
      */
-    @EnumMapping("getCode")
     private BaseStatus status;
     private Long       createTime;
     private Long       modifyTime;

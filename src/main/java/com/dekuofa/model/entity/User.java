@@ -36,8 +36,8 @@ public class User extends Model implements BaseEntity {
     private Integer    id;
     @Column(name = "user_name")
     private String     username;
+//    @JsonProperty // 解决使用 @RequestBody 时，password为空的情况
     @JsonIgnore // json返回值中忽略
-    @JsonProperty // 解决使用 @RequestBody 时，password为空的情况
     private String     password;
     private String     nickName;
     /**
@@ -46,7 +46,6 @@ public class User extends Model implements BaseEntity {
     private String     avatar;
     private Long       lastLoginTime;
     private String     lastLoginIp;
-    @EnumMapping("getCode")
     private BaseStatus status;
 
     private Long    createTime;

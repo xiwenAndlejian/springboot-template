@@ -1,7 +1,5 @@
 package com.dekuofa.model.response;
 
-import com.dekuofa.model.entity.SysRole;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Collection;

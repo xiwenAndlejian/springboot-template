@@ -1,5 +1,6 @@
 package com.dekuofa.model.enums;
 
+import io.github.biezhi.anima.annotation.EnumMapping;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,6 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+@EnumMapping("getCode")
 public enum BaseStatus implements BaseCodeEnum {
 
     INTI(0, "init"),

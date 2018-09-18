@@ -33,7 +33,7 @@ public class FileInfo extends Model implements BaseEntity {
     private String     creatorName;
     private Integer    modifierId;
     private String     modifierName;
-    @EnumMapping("getCode")
+
     private BaseStatus status;
 
     public FileInfo(String name, String uuid, String url, Double size, String type, BaseStatus status) {
