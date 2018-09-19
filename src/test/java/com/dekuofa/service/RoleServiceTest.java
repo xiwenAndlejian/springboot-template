@@ -1,12 +1,19 @@
 package com.dekuofa.service;
 
 import com.dekuofa.model.relation.UserRole;
+import io.github.biezhi.anima.Anima;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StringUtils;
+import org.sql2o.converters.Converter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +31,26 @@ public class RoleServiceTest {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private Environment env;
+
+
+    /**
+     * 创建 anima bean， 类似于dataSource
+     */
+    @Before
+    @Bean
+    public Anima anima() {
+        String url      = env.getProperty("spring.datasource.url");
+        String username = env.getProperty("spring.datasource.username");
+        String password = env.getProperty("spring.datasource.password");
+        assert !StringUtils.isEmpty(url);
+        assert !StringUtils.isEmpty(username);
+        assert !StringUtils.isEmpty(password);
+
+        return Anima.open(url, username, password);
+    }
+
     @Test
     public void test() {
         List<UserRole> userRoles = new ArrayList<>();
@@ -31,6 +58,11 @@ public class RoleServiceTest {
         userRoles.add(new UserRole(1, 2));
         List<Integer> deleteIds = Arrays.asList(1, 2);
         roleService.changeUserRoles(1, userRoles, deleteIds);
+    }
+
+    @Test
+    public void test_1(Anima anima) {
+//        (ConnectionImpl) anima.getSql2o().open();
     }
 
 }

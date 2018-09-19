@@ -44,7 +44,7 @@ ext {
     jjwtVersion = "0.9.0"
     springVersion = "2.0.0.RELEASE"
     lombokVersion = "1.16.18"
-    mysqlVersion = "6.0.6"
+    mysqlVersion = "5.1.47"
     animaVersion = "0.2.5-SNAPSHOT"
     animaBetaVersion = "0.2.5-BETA"
     shiroVersion = "shiro-spring:1.4.0"

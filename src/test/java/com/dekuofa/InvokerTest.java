@@ -1,5 +1,8 @@
 package com.dekuofa;
 
+import com.dekuofa.utils.DateUtil;
+import org.junit.Test;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -32,5 +35,10 @@ public class InvokerTest {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void test() {
+        System.out.println(DateUtil.newDate());
     }
 }
