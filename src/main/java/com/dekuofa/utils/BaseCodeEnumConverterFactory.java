@@ -39,7 +39,7 @@ public class BaseCodeEnumConverterFactory {
         };
     }
 
-    public static Converter<BaseCodeEnum> newBaseCodeConver() {
+    public static Converter<BaseCodeEnum> newBaseCodeConverter() {
         return new Converter<BaseCodeEnum>() {
             @Override
             public BaseCodeEnum convert(Object val) throws ConverterException {

@@ -39,7 +39,7 @@ public class DataBaseConfig {
     @Bean
     public Converter[] converters() {
         List<Converter<?>> converters = new ArrayList<>();
-        converters.add(BaseCodeEnumConverterFactory.newBaseCodeConver());
+        converters.add(BaseCodeEnumConverterFactory.newBaseCodeConverter());
         return converters.toArray(new Converter[]{});
     }
 
