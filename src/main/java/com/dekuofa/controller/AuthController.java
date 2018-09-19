@@ -43,7 +43,7 @@ public class AuthController implements BaseController {
     @SysLog(action = "登陆")
     @PostMapping("/login")
     public RestResponse<?> login(@RequestBody LoginParam param,
-                                             @ApiIgnore @ModelAttribute("ip") String ip) {
+                                 @ApiIgnore @ModelAttribute("ip") String ip) {
         if (param == null || param.getUsername() == null) {
             throw new UnauthorizedException("用户名或密码不能为空");
         }
@@ -72,7 +72,7 @@ public class AuthController implements BaseController {
 
     @PostMapping("/user/logout")
     public RestResponse<?> logout(@ApiParam(hidden = true) UserInfo userInfo) {
-        log.info("用户: {} 已下线",userInfo.getNickName());
+        log.info("用户: {} 已下线", userInfo.getNickName());
         return RestResponse.ok();
     }
 
@@ -82,13 +82,14 @@ public class AuthController implements BaseController {
         if (userInfo == null) {
             return RestResponse.fail("token校验失败");
         }
-        Integer             userId = userInfo.getUserId();
-        Collection<String> roles  = roleManager.roles(userId)
+        Integer userId = userInfo.getUserId();
+        User    user   = userManager.detail(userId);
+        Collection<String> roles = roleManager.roles(userId)
                 .stream().map(SysRole::getName)
                 .collect(Collectors.toList());
         UserInfoResponse response =
                 new UserInfoResponse().name(userInfo.getNickName()).roles(roles).id(userId)
-                        .avatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+                        .avatar(user.getAvatar());
         return RestResponse.ok(response);
     }
 

@@ -21,6 +21,6 @@ public class UserParam {
     private String password;
     @Length(min = 2, max = 30, message = "昵称不符合规范：长度 {min}-{max}")
     private String nickName;
-    @URL
+    // todo 正则校验路径参数（应该区分系统）
     private String avatar;
 }

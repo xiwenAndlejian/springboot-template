@@ -75,19 +75,20 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void updateUser(User user, BaseUserInfo userInfo) {
 
-        User update = userService.getUser(user.getId());
-        if (update == null) {
+//        User update = userService.getUser(user.getId());
+        if (!userService.isExist(user.getId())) {
             throw new TipException("更新失败：当前用户不存在");
         }
         String password = user.getPassword();
         password = StringUtils.isEmpty(password) ? null : ShaUtil.sha512Encode(password);
         if (StringUtils.isEmpty(password)) {
-            update.setPassword(password);
+            user.setPassword(password);
         }
-        update.setNickName(user.getNickName());
-        update.setModifyInfo(userInfo, DateUtil.newUnixMilliSecond());
+//        update.setNickName(user.getNickName());
+//        update.setNickName(user.getNickName());
+        user.setModifyInfo(userInfo, DateUtil.newUnixMilliSecond());
 
-        userService.modify(update);
+        userService.modify(user);
     }
 
     @Override
