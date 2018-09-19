@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-@EnumMapping("getCode")
+@EnumMapping("code")
 public enum BaseStatus implements BaseCodeEnum {
 
     INTI(0, "init"),
