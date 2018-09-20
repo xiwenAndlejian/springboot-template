@@ -4,7 +4,8 @@
 springboot框架模板，用于快速搭建一个后台 `REST` 框架的模板项目
 
 **todoList**
-- [] 部分属性存放至数据库中
+
+ - [ ] 部分属性存放至数据库中
 
 #### 软件架构
 1. Spring Boot(Spring + SpringMVC)
