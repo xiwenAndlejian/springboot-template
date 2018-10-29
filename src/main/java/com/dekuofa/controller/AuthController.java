@@ -21,6 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,8 @@ public class AuthController implements BaseController {
     @SysLog(action = "登陆")
     @PostMapping("/login")
     public RestResponse<?> login(@RequestBody LoginParam param,
-                                 @ApiIgnore @ModelAttribute("ip") String ip) {
+                                 @ApiIgnore @ModelAttribute("ip") String ip,
+                                 @ApiIgnore HttpServletResponse response) {
         if (param == null || param.getUsername() == null) {
             throw new UnauthorizedException("用户名或密码不能为空");
         }
@@ -62,10 +66,13 @@ public class AuthController implements BaseController {
             }
             // 记录登陆成功，修改最后一次登录时间
             userManager.login(user.getId(), ip);
-
             // 组装返回数据
-            LoginResponse response = new LoginResponse(userInfo, token, user.getPermissions());
-            return RestResponse.ok(response);
+            LoginResponse responseData = new LoginResponse(userInfo, token, user.getPermissions());
+            // cookie设置
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+            return RestResponse.ok(responseData);
         }
         return RestResponse.fail("用户名或密码错误");
     }
