@@ -1,7 +1,10 @@
 package com.dekuofa.shiro;
 
+import com.dekuofa.model.response.RestResponse;
 import com.dekuofa.utils.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * @author ganxiang <br>
@@ -20,6 +24,9 @@ import java.io.IOException;
  */
 @Log4j2
 public class JwtFilter extends BasicHttpAuthenticationFilter {
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
 
     /**
      * 对跨域提供支持
@@ -40,6 +47,38 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
+     * 这里我们详细说明下为什么最终返回的都是true，即允许访问
+     * 例如我们提供一个地址 GET /article
+     * 登入用户和游客看到的内容是不同的
+     * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西
+     * 所以我们在这里返回true，Controller中可以通过 subject.isAuthenticated() 来判断用户是否登入
+     * 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication 注解即可
+     * 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
+     *
+     * 做出修改，只有校验登录状态通过的才返回true
+     * 其余均返回false，且显示异常信息
+     */
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        if (isLoginAttempt(request, response)) {
+            try {
+                // 校验登录状态
+                executeLogin(request, response);
+                return true;
+            } catch (AuthenticationException e) {
+                // 身份校验失败
+                log.error("校验token失败：");
+                e.printStackTrace();
+                responseError(request, response, e);
+            }
+        } else {
+            // 请求头中不包含 token
+            response401(request, response);
+        }
+        return false;
+    }
+
+    /**
      * 判断用户是否想要登入。
      * 检测header里面是否包含Authorization字段即可
      */
@@ -54,7 +93,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      *
      */
     @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws AuthenticationException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String             authorization      = JwtUtil.getToken(httpServletRequest.getHeader("Authorization"));
         JwtToken           token              = new JwtToken(authorization);
@@ -65,38 +104,30 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 这里我们详细说明下为什么最终返回的都是true，即允许访问
-     * 例如我们提供一个地址 GET /article
-     * 登入用户和游客看到的内容是不同的
-     * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西
-     * 所以我们在这里返回true，Controller中可以通过 subject.isAuthenticated() 来判断用户是否登入
-     * 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication 注解即可
-     * 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
+     * 返回错误代码401
      */
-    @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        if (isLoginAttempt(request, response)) {
-            try {
-                executeLogin(request, response);
-            } catch (Exception e) {
-                response401(request, response);
-            }
-        }
-        return true;
+    private void response401(ServletRequest req, ServletResponse resp) {
+        RestResponse restResponse = RestResponse.fail("校权失败，请登录后重试").code(401);
+        writeJsonMessageToResp(resp, restResponse);
     }
 
     /**
-     * todo 返回状态码而非跳转
-     * 将非法请求跳转到 /401
+     * 返回校验异常
      */
-    private void response401(ServletRequest req, ServletResponse resp) {
+    private void responseError(ServletRequest req, ServletResponse resp, Exception error) {
+        RestResponse restResponse = RestResponse.fail(error.getMessage()).code(500);
+        writeJsonMessageToResp(resp, restResponse);
+    }
+
+    private void writeJsonMessageToResp(ServletResponse resp, RestResponse restResponse) {
         try {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-//        httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-//            httpServletResponse.sendError(HttpStatus.OK.value(), "登陆失败");
-            httpServletResponse.sendRedirect("/401");
+            OutputStream out     = resp.getOutputStream();
+            byte[]       message = objectMapper.writeValueAsBytes(restResponse);
+            out.write(message);
+            resp.setContentType("application/json");
         } catch (IOException e) {
-            log.error(e.getMessage());
+            log.error("信息写入失败：{}", e.getCause());
+            e.printStackTrace();
         }
     }
 }
