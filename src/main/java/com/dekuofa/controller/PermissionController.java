@@ -2,6 +2,7 @@ package com.dekuofa.controller;
 
 import com.dekuofa.manager.PermissionManager;
 import com.dekuofa.model.NormalUserInfo;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.response.RestResponse;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -32,7 +33,7 @@ public class PermissionController implements BaseController {
 
     @RequiresAuthentication
     @PutMapping("/role/{id}/permission")
-    public RestResponse<?> changePermission(@ApiIgnore NormalUserInfo userInfo,
+    public RestResponse<?> changePermission(@ApiIgnore UserInfo userInfo,
                                             @PathVariable("id") Integer id,
                                             @RequestParam("permissionIds") List<Integer> permissionIds) {
         try {

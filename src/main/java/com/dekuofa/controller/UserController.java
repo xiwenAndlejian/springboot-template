@@ -51,7 +51,7 @@ public class UserController implements BaseController {
     @RequiresAuthentication
     @PostMapping("/user")
     public RestResponse<Integer> saveUser(@RequestBody @Valid UserParam userParam,
-                                          @ApiIgnore NormalUserInfo userInfo) {
+                                          @ApiIgnore UserInfo userInfo) {
         User user = new User(userParam);
         try {
             // 加密
@@ -77,7 +77,7 @@ public class UserController implements BaseController {
     @PutMapping("/user/{id}")
     public RestResponse<?> updateUser(@PathVariable("id") Integer userId,
                                       @Valid @RequestBody UserParam param,
-                                      @ModelAttribute NormalUserInfo userInfo) {
+                                      @ModelAttribute UserInfo userInfo) {
         if (!userInfo.isCurrentUser(userId)) {
             return RestResponse.fail("无法修改其他用户信息");
         }
@@ -97,7 +97,7 @@ public class UserController implements BaseController {
 
     @PutMapping("/user/{id}/passwd")
     public RestResponse<?> changePasswd(@PathVariable("id") Integer id,
-                                        @RequestBody PasswdParam param,
+                                        @RequestParam PasswdParam param,
                                         UserInfo userInfo) {
         CommonValidator.validate(param);
         try {
@@ -172,7 +172,7 @@ public class UserController implements BaseController {
     @PutMapping("/user/{id}/role")
     public RestResponse<?> changeUserRoles(@PathVariable("id") Integer userId,
                                            @RequestParam("roleIds") Integer[] roleIds,
-                                           @ApiIgnore NormalUserInfo userInfo) {
+                                           @ApiIgnore UserInfo userInfo) {
         if (userId == null || !userManager.isExist(userId)) {
             return RestResponse.fail("修改失败：用户不存在");
         }

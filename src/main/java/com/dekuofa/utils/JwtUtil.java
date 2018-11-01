@@ -98,7 +98,7 @@ public class JwtUtil {
      * @param password 密码（用于盐加密）
      * @return token令牌，String
      */
-    public static String sign(NormalUserInfo userInfo,
+    public static String sign(UserInfo userInfo,
                               String password) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);

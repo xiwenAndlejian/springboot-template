@@ -4,6 +4,7 @@ import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.ScrollImageManager;
 import com.dekuofa.model.NormalUserInfo;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.ScrollImage;
 import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
@@ -34,7 +35,7 @@ public class ScrollImageController implements BaseController {
 
     @RequiresAuthentication
     @PostMapping("/scrollImage")
-    public RestResponse<?> save(NormalUserInfo userInfo, @Valid ScrollImageParam param) {
+    public RestResponse<?> save(UserInfo userInfo, @Valid ScrollImageParam param) {
         Long now = DateUtil.newUnixMilliSecond();
         ScrollImage image = new ScrollImage(param)
                 .setModifyInfo(userInfo, now).setCreateInfo(userInfo, now);
@@ -53,7 +54,7 @@ public class ScrollImageController implements BaseController {
 
     @RequiresAuthentication
     @DeleteMapping("/scrollImage/{id}")
-    public RestResponse<?> delete(NormalUserInfo userInfo,
+    public RestResponse<?> delete(UserInfo userInfo,
                                   @PathVariable("id") Integer id) {
 
         if (!scrollImageManager.isExist(id)) {

@@ -3,6 +3,7 @@ package com.dekuofa.controller;
 import com.dekuofa.annotation.SysLog;
 import com.dekuofa.manager.FileManager;
 import com.dekuofa.model.NormalUserInfo;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.FileInfo;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.response.RestResponse;
@@ -32,7 +33,7 @@ public class FileController implements BaseController{
     @SysLog(action = "文件上传")
     @PostMapping("/upload")
     public RestResponse<?> upload(
-            @ApiParam(hidden = true) NormalUserInfo userInfo,
+            @ApiParam(hidden = true) UserInfo userInfo,
             @RequestParam("file_name") String fileName,
             MultipartFile file) {
         log.debug("当前用户：" + userInfo);

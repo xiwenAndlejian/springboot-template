@@ -3,6 +3,7 @@ package com.dekuofa.controller;
 import com.dekuofa.annotation.SysLog;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.model.NormalUserInfo;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.param.SysRoleParam;
 import com.dekuofa.model.response.RestResponse;
@@ -33,7 +34,7 @@ public class RoleController implements BaseController {
     @RequiresAuthentication
     @PostMapping("/role")
     public RestResponse<?> add(@RequestBody SysRoleParam param,
-                               @ApiIgnore NormalUserInfo userInfo) {
+                               @ApiIgnore UserInfo userInfo) {
         validate(param);
 
         SysRole role = new SysRole(param);
@@ -52,7 +53,7 @@ public class RoleController implements BaseController {
     @PutMapping("/role/{id}")
     public RestResponse<?> modify(@PathVariable("id") Integer id,
                                   @RequestBody SysRoleParam param,
-                                  @ApiIgnore NormalUserInfo userInfo) {
+                                  @ApiIgnore UserInfo userInfo) {
 
         if (id == null) {
             RestResponse.fail("修改失败：角色id不能为空");
