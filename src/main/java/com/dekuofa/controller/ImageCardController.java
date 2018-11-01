@@ -1,7 +1,7 @@
 package com.dekuofa.controller;
 
 import com.dekuofa.manager.ImageCardManager;
-import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.entity.ImageCard;
 import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.ImageCardParam;
@@ -32,7 +32,7 @@ public class ImageCardController implements BaseController {
 
     @PostMapping("/imageCard")
     public RestResponse<?> save(@Valid @RequestBody ImageCardParam param,
-                                @ApiParam(hidden = true) UserInfo userInfo) {
+                                @ApiParam(hidden = true) NormalUserInfo userInfo) {
         ImageCard imageCard = new ImageCard(param);
         imageCard.setStatus(BaseStatus.INTI);
         Long now = DateUtil.newUnixMilliSecond();
@@ -72,7 +72,7 @@ public class ImageCardController implements BaseController {
 
     @PutMapping("/imageCard/{id}")
     public RestResponse<?> modify(@PathVariable @ApiParam(hidden = true) Integer id,
-                                  @ApiParam(hidden = true) UserInfo userInfo,
+                                  @ApiParam(hidden = true) NormalUserInfo userInfo,
                                   @Valid @RequestBody ImageCardParam param) {
         try {
             ImageCard imageCard = new ImageCard(param);

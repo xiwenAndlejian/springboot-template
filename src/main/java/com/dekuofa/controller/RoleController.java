@@ -2,7 +2,7 @@ package com.dekuofa.controller;
 
 import com.dekuofa.annotation.SysLog;
 import com.dekuofa.manager.RoleManager;
-import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.param.SysRoleParam;
 import com.dekuofa.model.response.RestResponse;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Collection;
-import java.util.List;
 
 import static com.dekuofa.utils.CommonValidator.validate;
 
@@ -34,7 +33,7 @@ public class RoleController implements BaseController {
     @RequiresAuthentication
     @PostMapping("/role")
     public RestResponse<?> add(@RequestBody SysRoleParam param,
-                               @ApiIgnore UserInfo userInfo) {
+                               @ApiIgnore NormalUserInfo userInfo) {
         validate(param);
 
         SysRole role = new SysRole(param);
@@ -53,7 +52,7 @@ public class RoleController implements BaseController {
     @PutMapping("/role/{id}")
     public RestResponse<?> modify(@PathVariable("id") Integer id,
                                   @RequestBody SysRoleParam param,
-                                  @ApiIgnore UserInfo userInfo) {
+                                  @ApiIgnore NormalUserInfo userInfo) {
 
         if (id == null) {
             RestResponse.fail("修改失败：角色id不能为空");

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2018-08-22 <br>
  */
 public class IpKit {
+
     private static final String[] IP_HEADER_CANDIDATES = {
             "X-Forwarded-For",
             "Proxy-Client-IP",

@@ -1,6 +1,6 @@
 package com.dekuofa.model.entity;
 
-import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.NormalUserInfo;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Column;
 import io.github.biezhi.anima.annotation.Table;
@@ -64,7 +64,7 @@ public class SysLogInfo extends Model {
         return this;
     }
 
-    public SysLogInfo userInfo(UserInfo userInfo) {
+    public SysLogInfo userInfo(NormalUserInfo userInfo) {
         this.username = userInfo.getNickName();
         this.userId = userInfo.getUserId();
         return this;

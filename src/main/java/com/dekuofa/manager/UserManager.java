@@ -1,9 +1,11 @@
 package com.dekuofa.manager;
 
 
-import com.dekuofa.model.BaseUserInfo;
+import com.dekuofa.exception.TipException;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.param.PageParam;
+import com.dekuofa.model.param.PasswdParam;
 import io.github.biezhi.anima.page.Page;
 
 
@@ -24,17 +26,21 @@ public interface UserManager {
      */
     void login(Integer userId, String ip);
 
-    Integer addUser(User user, BaseUserInfo userInfo);
+    Integer addUser(User user, UserInfo userInfo) throws TipException;
 
     Page<User> queryUser(String username, PageParam pageParam);
 
-    void updateUser(User user, BaseUserInfo userInfo);
+    void updateUserInfo(User param, UserInfo userInfo) throws TipException;
+
+    void changePassword(Integer userId, PasswdParam param, UserInfo userInfo) throws TipException;
+
+    void changeAvatar(Integer userId, String avatarPath, UserInfo userInfo) throws TipException;
 
     boolean isExist(User user);
 
     boolean isExist(Integer userId);
 
-    void changeStatus(User user);
+    void changeStatus(User user) throws TipException;
 
     User detail(Integer userId);
 

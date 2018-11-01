@@ -13,12 +13,18 @@ import lombok.Setter;
 @Setter
 public class TipException extends RuntimeException {
 
+    private Integer code = 1;
 
     public TipException() {
     }
 
     public TipException(String message) {
         super(message);
+    }
+
+    public TipException(Integer code, String message) {
+        super(message);
+        this.code = code;
     }
 
     public TipException(String message, Throwable cause) {

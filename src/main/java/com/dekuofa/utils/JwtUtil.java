@@ -9,8 +9,8 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
-import com.dekuofa.model.BaseUserInfo;
 import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.enums.UserType;
 import lombok.extern.log4j.Log4j2;
 
@@ -47,7 +47,7 @@ public class JwtUtil {
      * @param secret   用户密码
      * @return 验证结果：true/false
      */
-    public static boolean verify(String token, BaseUserInfo userInfo, String secret) {
+    public static boolean verify(String token, UserInfo userInfo, String secret) {
         try {
             //根据token的信息构建解析方法
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
@@ -76,7 +76,7 @@ public class JwtUtil {
      * @param token 令牌
      * @return token中的用户名
      */
-    public static Optional<BaseUserInfo> getUserInfo(String token) {
+    public static Optional<UserInfo> getUserInfo(String token) {
         try {
             DecodedJWT jwt      = JWT.decode(token);
             Integer    userId   = jwt.getClaim("userId").asInt();
@@ -85,7 +85,7 @@ public class JwtUtil {
             UserType   userType = jwt.getClaim("userType").as(UserType.class);
 
             return Optional.of(
-                    new UserInfo(userId, username, nickName, userType));
+                    new NormalUserInfo(userId, username, nickName, userType));
         } catch (JWTDecodeException e) {
             log.error("jwt解析失败：" + e.getCause());
             return Optional.empty();
@@ -98,7 +98,7 @@ public class JwtUtil {
      * @param password 密码（用于盐加密）
      * @return token令牌，String
      */
-    public static String sign(UserInfo userInfo,
+    public static String sign(NormalUserInfo userInfo,
                               String password) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);

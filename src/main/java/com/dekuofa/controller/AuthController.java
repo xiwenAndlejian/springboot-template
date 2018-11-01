@@ -3,7 +3,7 @@ package com.dekuofa.controller;
 import com.dekuofa.annotation.SysLog;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.manager.UserManager;
-import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.enums.UserType;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -56,8 +55,8 @@ public class AuthController implements BaseController {
         // 加密后的密码
         String encodePwd = ShaUtil.sha512Encode(param.getPassword());
         if (user != null && user.getPassword().equals(encodePwd)) {
-            UserInfo userInfo =
-                    new UserInfo(user.getId(), user.getUsername(), user.getNickName(), UserType.ADMIN);
+            NormalUserInfo userInfo =
+                    new NormalUserInfo(user.getId(), user.getUsername(), user.getNickName(), UserType.ADMIN);
             // 生成token
             String token =
                     JwtUtil.sign(userInfo, encodePwd);
@@ -78,14 +77,14 @@ public class AuthController implements BaseController {
     }
 
     @PostMapping("/user/logout")
-    public RestResponse<?> logout(@ApiParam(hidden = true) UserInfo userInfo) {
+    public RestResponse<?> logout(@ApiParam(hidden = true) NormalUserInfo userInfo) {
         log.info("用户: {} 已下线", userInfo.getNickName());
         return RestResponse.ok();
     }
 
     @RequiresAuthentication
     @GetMapping("/user/info")
-    public RestResponse<?> getUserInfo(@ApiParam(hidden = true) UserInfo userInfo) {
+    public RestResponse<?> getUserInfo(@ApiParam(hidden = true) NormalUserInfo userInfo) {
         if (userInfo == null) {
             return RestResponse.fail("token校验失败");
         }

@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 public interface BaseEntity {
 
     // 目前想法：将设置某个属性值的方法独立出来
-    default <T extends BaseEntity> T setModifyInfo(BaseUserInfo userInfo, Long time) {
+    default <T extends BaseEntity> T setModifyInfo(UserInfo userInfo, Long time) {
         // todo 考虑传入数组循环设值，并且修改为函数式编程
         try {
             BeanUtils.setProperty(this, "modifyTime", time);
@@ -33,7 +33,7 @@ public interface BaseEntity {
         return result;
     }
 
-    default <T extends BaseEntity> T setCreateInfo(BaseUserInfo userInfo, Long time) {
+    default <T extends BaseEntity> T setCreateInfo(UserInfo userInfo, Long time) {
         try {
             BeanUtils.setProperty(this, "createTime", time);
         } catch (IllegalAccessException | InvocationTargetException e) {

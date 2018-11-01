@@ -1,7 +1,7 @@
 package com.dekuofa.utils;
 
 import com.dekuofa.exception.TipException;
-import com.dekuofa.model.BaseUserInfo;
+import com.dekuofa.model.UserInfo;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 @Log4j2
 public class SecurityUtil {
-    public static Optional<BaseUserInfo> getCurrentUserInfo() {
+    public static Optional<UserInfo> getCurrentUserInfo() {
         String token = "";
         try {
             Subject currentUser = Optional.of(SecurityUtils.getSubject())

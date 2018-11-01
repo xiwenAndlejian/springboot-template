@@ -1,34 +1,23 @@
 package com.dekuofa.model;
 
 import com.dekuofa.model.enums.UserType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
+ * fixme 自定义handler处理接口，
+ *
  * @author dekuofa <br>
  * @date 2018-08-21 <br>
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserInfo implements BaseUserInfo {
+public interface UserInfo {
+    String getUsername();
 
-    private Integer  userId;
-    private String   username;
-    private String   nickName;
-    private UserType userType;
+    String getNickName();
 
-    @Override
-    public boolean isEmpty() {
+    UserType getUserType();
 
-        return userId == null || username == null || nickName == null;
-    }
+    Integer getUserId();
 
-    @Override
-    public boolean isCurrentUser(Integer userId) {
+    boolean isEmpty();
 
-        return userId != null && userId.equals(this.userId);
-    }
-
+    boolean isCurrentUser(Integer userId);
 }

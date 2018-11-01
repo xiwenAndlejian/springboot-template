@@ -2,7 +2,7 @@ package com.dekuofa.config;
 
 import com.dekuofa.annotation.SysLog;
 import com.dekuofa.manager.LogManager;
-import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.entity.SysLogInfo;
 import com.dekuofa.model.response.RestResponse;
 import com.dekuofa.utils.DateUtil;
@@ -41,8 +41,8 @@ public class LogAspect {
 
     @AfterReturning(pointcut = "log()", returning = "returning", argNames = "point,returning")
     public void normal(JoinPoint point, Object returning) {
-        Method method = ((MethodSignature) point.getSignature()).getMethod();
-        UserInfo userInfo = getUserInfo(point);
+        Method         method   = ((MethodSignature) point.getSignature()).getMethod();
+        NormalUserInfo userInfo = getUserInfo(point);
         if (userInfo != null && !userInfo.isEmpty()) {
             log.info("当前用户:{}", userInfo.getNickName());
             String action = getAction(method);
@@ -57,8 +57,8 @@ public class LogAspect {
 
     @AfterThrowing(pointcut = "log()", throwing = "e")
     public void exception(JoinPoint point, Exception e) {
-        Method method = ((MethodSignature) point.getSignature()).getMethod();
-        UserInfo userInfo = getUserInfo(point);
+        Method         method   = ((MethodSignature) point.getSignature()).getMethod();
+        NormalUserInfo userInfo = getUserInfo(point);
         if (userInfo != null && !userInfo.isEmpty()) {
             log.info("当前用户:{}", userInfo.getNickName());
             String action = getAction(method);
@@ -79,11 +79,11 @@ public class LogAspect {
         return false;
     }
 
-    private UserInfo getUserInfo(JoinPoint point) {
+    private NormalUserInfo getUserInfo(JoinPoint point) {
         Optional<Object> first = Stream.of(point.getArgs())
-                .filter(param -> param instanceof UserInfo)
+                .filter(param -> param instanceof NormalUserInfo)
                 .findFirst();
-        return (UserInfo) first.orElse(null);
+        return (NormalUserInfo) first.orElse(null);
     }
 
     private String getAction(Method method) {

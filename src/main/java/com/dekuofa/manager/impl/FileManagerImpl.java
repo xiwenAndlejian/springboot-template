@@ -3,8 +3,7 @@ package com.dekuofa.manager.impl;
 import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.FileManager;
-import com.dekuofa.model.UserInfo;
-import com.dekuofa.model.common.Status;
+import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.entity.FileInfo;
 import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
@@ -42,7 +41,7 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public FileInfo upload(MultipartFile fileUpload, String fileName, UserInfo userInfo) {
+    public FileInfo upload(MultipartFile fileUpload, String fileName, NormalUserInfo userInfo) {
         // 获取当前日期
         String day = DateUtil.newDate();
         // 如果获取不到，则使用默认文件类型

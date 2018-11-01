@@ -5,18 +5,19 @@ import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.manager.UserManager;
+import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
+import com.dekuofa.model.param.PasswdParam;
 import com.dekuofa.model.param.UserParam;
 import com.dekuofa.model.response.RestResponse;
-import com.dekuofa.model.response.UserInfoResponse;
+import com.dekuofa.utils.CommonValidator;
 import com.dekuofa.utils.DateUtil;
 import com.dekuofa.utils.ShaUtil;
 import io.github.biezhi.anima.page.Page;
-import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -34,7 +35,7 @@ import static com.dekuofa.utils.CommonKit.difference;
  * @date 2018-08-22 <br>
  */
 @RestController
-public class UserController implements BaseController{
+public class UserController implements BaseController {
 
     private UserManager userManager;
     private RoleManager roleManager;
@@ -50,7 +51,7 @@ public class UserController implements BaseController{
     @RequiresAuthentication
     @PostMapping("/user")
     public RestResponse<Integer> saveUser(@RequestBody @Valid UserParam userParam,
-                                          @ApiIgnore UserInfo userInfo) {
+                                          @ApiIgnore NormalUserInfo userInfo) {
         User user = new User(userParam);
         try {
             // 加密
@@ -76,7 +77,7 @@ public class UserController implements BaseController{
     @PutMapping("/user/{id}")
     public RestResponse<?> updateUser(@PathVariable("id") Integer userId,
                                       @Valid @RequestBody UserParam param,
-                                      @ModelAttribute UserInfo userInfo) {
+                                      @ModelAttribute NormalUserInfo userInfo) {
         if (!userInfo.isCurrentUser(userId)) {
             return RestResponse.fail("无法修改其他用户信息");
         }
@@ -86,7 +87,7 @@ public class UserController implements BaseController{
         }
         user.setId(userId);
         try {
-            userManager.updateUser(user, userInfo);
+            userManager.updateUserInfo(user, userInfo);
             return RestResponse.ok();
         } catch (Exception e) {
             String msg = getErrorMessage(e);
@@ -94,7 +95,37 @@ public class UserController implements BaseController{
         }
     }
 
-    // todo 修改用户状态
+    @PutMapping("/user/{id}/passwd")
+    public RestResponse<?> changePasswd(@PathVariable("id") Integer id,
+                                        @RequestBody PasswdParam param,
+                                        UserInfo userInfo) {
+        CommonValidator.validate(param);
+        try {
+            userManager.changePassword(id, param, userInfo);
+            return RestResponse.ok();
+        } catch (TipException e) {
+            String msg = getErrorMessage(e);
+            return RestResponse.fail(msg).code(e.getCode());
+        }
+    }
+
+    @PutMapping("/user/{id}/avatar")
+    public RestResponse<?> changeAvatar(@PathVariable("id") Integer id,
+                                        @RequestParam String avatarPath,
+                                        UserInfo userInfo) {
+        if (StringUtils.isEmpty(avatarPath)) {
+            return RestResponse.fail("头像文件路径不能为空");
+        }
+        // todo 校验 avatarPath 格式是否满足路径
+        try {
+            userManager.changeAvatar(id, avatarPath, userInfo);
+            return RestResponse.ok();
+        } catch (TipException e) {
+            String msg = getErrorMessage(e);
+            return RestResponse.fail(msg).code(e.getCode());
+        }
+    }
+
     @PutMapping("/user/{id}/status")
     public RestResponse<?> changeStatus(@PathVariable("id") Integer id,
                                         @RequestParam BaseStatus status) {
@@ -141,7 +172,7 @@ public class UserController implements BaseController{
     @PutMapping("/user/{id}/role")
     public RestResponse<?> changeUserRoles(@PathVariable("id") Integer userId,
                                            @RequestParam("roleIds") Integer[] roleIds,
-                                           @ApiIgnore UserInfo userInfo) {
+                                           @ApiIgnore NormalUserInfo userInfo) {
         if (userId == null || !userManager.isExist(userId)) {
             return RestResponse.fail("修改失败：用户不存在");
         }

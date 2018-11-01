@@ -1,7 +1,7 @@
 package com.dekuofa.service.impl;
 
 import com.dekuofa.exception.TipException;
-import com.dekuofa.model.BaseUserInfo;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.User;
 
 import com.dekuofa.model.param.PageParam;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Transient
     @Override
-    public Integer addUser(User user, BaseUserInfo userInfo) {
+    public Integer addUser(User user, UserInfo userInfo) throws TipException {
         try {
             Integer id = save(user).asInt();
             if (null == id) {
@@ -44,6 +44,26 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Override
+    public void changePassword(Integer userId, String newPasswd, UserInfo userInfo) throws TipException {
+        update().from(User.class)
+                .where(User::getId).eq(userId)
+                .set(User::getPassword, newPasswd)
+                .set(User::getModifyTime, DateUtil.newUnixMilliSecond())
+                .set(User::getModifierId, userInfo.getUserId())
+                .set(User::getModifierName, userInfo.getNickName());
+    }
+
+    @Override
+    public void changeAvatar(Integer userId, String avatar, UserInfo userInfo) throws TipException {
+        update().from(User.class)
+                .where(User::getId).eq(userId)
+                .set(User::getAvatar, avatar)
+                .set(User::getModifyTime, DateUtil.newUnixMilliSecond())
+                .set(User::getModifierId, userInfo.getUserId())
+                .set(User::getModifierName, userInfo.getNickName());
     }
 
     @Override

@@ -28,6 +28,7 @@ public interface Constants {
      * 最大密码长度
      */
     int MAX_OF_PASSWD    = 64;
+    int MIN_OF_PASSWD    = 8;
 
     /**
      * 默认分页页数大小

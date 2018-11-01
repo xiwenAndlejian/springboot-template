@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author dekuofa <br>
@@ -39,6 +42,22 @@ public class InvokerTest {
 
     @Test
     public void test() {
-        System.out.println(DateUtil.newDate());
+        grayCode(1);
+//        System.out.println(DateUtil.newDate());
+    }
+
+    public List<Integer> grayCode(int n) {
+
+        int num = 0;
+        List<Integer> result = new ArrayList<Integer>(){{
+            add(0);
+        }};
+        for (int i = 1; i <= n; i++) {
+            for (int j = i - 1; j > 0; j--) {
+                num = num ^ (1 << j);
+                result.add(num);
+            }
+        }
+        return result;
     }
 }

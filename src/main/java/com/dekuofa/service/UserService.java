@@ -1,6 +1,7 @@
 package com.dekuofa.service;
 
-import com.dekuofa.model.BaseUserInfo;
+import com.dekuofa.exception.TipException;
+import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.User;
 import com.dekuofa.model.param.PageParam;
 import io.github.biezhi.anima.page.Page;
@@ -13,7 +14,11 @@ import io.github.biezhi.anima.page.Page;
 public interface UserService {
     User findByUsername(String username);
 
-    Integer addUser(User user, BaseUserInfo userInfo);
+    Integer addUser(User user, UserInfo userInfo) throws TipException;
+
+    void changePassword(Integer userId, String newPasswd, UserInfo userInfo) throws TipException;
+
+    void changeAvatar(Integer userId, String avatar, UserInfo userInfo) throws TipException;
 
     boolean isExist(String username);
 
@@ -23,7 +28,7 @@ public interface UserService {
 
     void login(Integer userId, String ip);
 
-    void modify(User user);
+    void modify(User user) throws TipException;
 
     User getUser(Integer userId);
 
