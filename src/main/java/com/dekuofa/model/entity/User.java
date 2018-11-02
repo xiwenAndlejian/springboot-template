@@ -58,7 +58,7 @@ public class User extends Model implements BaseEntity {
     public User(UserParam userParam) {
         this.username = userParam.getUsername();
         this.password = userParam.getPassword();
-        this.nickName = userParam.getPassword();
+        this.nickName = userParam.getNickName();
         this.avatar = userParam.getAvatar();
     }
 

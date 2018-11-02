@@ -53,7 +53,8 @@ public class UserServiceImpl implements UserService {
                 .set(User::getPassword, newPasswd)
                 .set(User::getModifyTime, DateUtil.newUnixMilliSecond())
                 .set(User::getModifierId, userInfo.getUserId())
-                .set(User::getModifierName, userInfo.getNickName());
+                .set(User::getModifierName, userInfo.getNickName())
+                .execute();
     }
 
     @Override
@@ -63,7 +64,8 @@ public class UserServiceImpl implements UserService {
                 .set(User::getAvatar, avatar)
                 .set(User::getModifyTime, DateUtil.newUnixMilliSecond())
                 .set(User::getModifierId, userInfo.getUserId())
-                .set(User::getModifierName, userInfo.getNickName());
+                .set(User::getModifierName, userInfo.getNickName())
+                .execute();
     }
 
     @Override
@@ -100,7 +102,8 @@ public class UserServiceImpl implements UserService {
         update().from(User.class)
                 .set(User::getLastLoginIp, ip)
                 .set(User::getLastLoginTime, DateUtil.newUnixMilliSecond())
-                .where(User::getId).eq(userId).execute();
+                .where(User::getId).eq(userId)
+                .execute();
     }
 
     @Override

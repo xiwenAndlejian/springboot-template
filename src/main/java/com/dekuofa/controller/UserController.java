@@ -82,9 +82,6 @@ public class UserController implements BaseController {
             return RestResponse.fail("无法修改其他用户信息");
         }
         User user = new User(param);
-        if (StringUtils.isEmpty(user.getAvatar())) {
-            user.setAvatar(Constants.DEFAULT_USER_AVATAR);
-        }
         user.setId(userId);
         try {
             userManager.updateUserInfo(user, userInfo);

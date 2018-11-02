@@ -89,6 +89,9 @@ public class UserManagerImpl implements UserManager {
         if (!userInfo.isCurrentUser(userId)) {
             throw new TipException("不能修改其他用户密码");
         }
+        if (!userService.isExist(userId)) {
+            throw new TipException("当前用户不存在");
+        }
         User user = userService.getUser(userId);
         // todo 建立一个统一的密码管理器，管理密码生成和校验，而不是选择某一种加密方式
         String encodeOldPasswd = ShaUtil.sha512Encode(param.getOldPasswd());
@@ -105,6 +108,9 @@ public class UserManagerImpl implements UserManager {
     public void changeAvatar(Integer userId, String avatarPath, UserInfo userInfo) throws TipException {
         if (!userInfo.isCurrentUser(userId)) {
             throw new TipException("不能修改其他用户头像");
+        }
+        if (!userService.isExist(userId)) {
+            throw new TipException("当前用户不存在");
         }
 
         userService.changeAvatar(userId, avatarPath, userInfo);
