@@ -5,17 +5,17 @@ import com.dekuofa.constant.Constants;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.manager.RoleManager;
 import com.dekuofa.manager.UserManager;
-import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
+import com.dekuofa.model.entity.UserDetail;
 import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.param.PasswdParam;
+import com.dekuofa.model.param.UserDetailParam;
 import com.dekuofa.model.param.UserParam;
 import com.dekuofa.model.response.RestResponse;
 import com.dekuofa.utils.CommonValidator;
-import com.dekuofa.utils.DateUtil;
 import com.dekuofa.utils.ShaUtil;
 import io.github.biezhi.anima.page.Page;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -57,10 +57,8 @@ public class UserController implements BaseController {
             // 加密
             String password = ShaUtil.sha512Encode(user.getPassword());
             user.setPassword(password);
-            Long now = DateUtil.newUnixMilliSecond();
             user.setStatus(BaseStatus.INTI);
-            user.setCreateInfo(userInfo, now)
-                    .setModifyInfo(userInfo, now);
+
             if (StringUtils.isEmpty(user.getAvatar())) {
                 user.setAvatar(Constants.DEFAULT_USER_AVATAR);
             }
@@ -72,19 +70,28 @@ public class UserController implements BaseController {
         }
     }
 
-    @SysLog(action = "修改用户信息")
     @RequiresAuthentication
-    @PutMapping("/user/{id}")
-    public RestResponse<?> updateUser(@PathVariable("id") Integer userId,
-                                      @Valid @RequestBody UserParam param,
-                                      @ModelAttribute UserInfo userInfo) {
-        if (!userInfo.isCurrentUser(userId)) {
-            return RestResponse.fail("无法修改其他用户信息");
-        }
-        User user = new User(param);
-        user.setId(userId);
+    @GetMapping("/user/detail")
+    public RestResponse<?> userDetail(@ModelAttribute UserInfo userInfo) {
         try {
-            userManager.updateUserInfo(user, userInfo);
+            UserDetail detail = userManager.detail(userInfo.getUserId());
+            return RestResponse.ok(detail);
+        } catch (Exception e) {
+            String msg = getErrorMessage(e);
+            return RestResponse.fail(msg);
+        }
+    }
+
+    @SysLog(action = "修改用户详情")
+    @RequiresAuthentication
+    @PutMapping("/user/detail")
+    public RestResponse<?> updateUser(@Valid @RequestBody UserDetailParam param,
+                                      @ModelAttribute UserInfo userInfo) {
+
+        UserDetail detail = UserDetail.build(param);
+        detail.setUserId(userInfo.getUserId());
+        try {
+            userManager.updateUserDetail(detail, userInfo);
             return RestResponse.ok();
         } catch (Exception e) {
             String msg = getErrorMessage(e);
@@ -92,10 +99,14 @@ public class UserController implements BaseController {
         }
     }
 
+    @SysLog(action = "修改密码")
     @PutMapping("/user/{id}/passwd")
     public RestResponse<?> changePasswd(@PathVariable("id") Integer id,
-                                        @RequestParam PasswdParam param,
+                                        @RequestBody PasswdParam param,
                                         UserInfo userInfo) {
+        if (!userInfo.isCurrentUser(id)) {
+            return RestResponse.fail("不能修改其他用户的密码");
+        }
         CommonValidator.validate(param);
         try {
             userManager.changePassword(id, param, userInfo);
@@ -106,10 +117,14 @@ public class UserController implements BaseController {
         }
     }
 
+    @SysLog(action = "修改头像")
     @PutMapping("/user/{id}/avatar")
     public RestResponse<?> changeAvatar(@PathVariable("id") Integer id,
                                         @RequestParam String avatarPath,
                                         UserInfo userInfo) {
+        if (!userInfo.isCurrentUser(id)) {
+            return RestResponse.fail("不能修改其他用户的头像");
+        }
         if (StringUtils.isEmpty(avatarPath)) {
             return RestResponse.fail("头像文件路径不能为空");
         }
@@ -123,6 +138,7 @@ public class UserController implements BaseController {
         }
     }
 
+    @SysLog(action = "修改用户状态")
     @PutMapping("/user/{id}/status")
     public RestResponse<?> changeStatus(@PathVariable("id") Integer id,
                                         @RequestParam BaseStatus status) {
@@ -151,7 +167,7 @@ public class UserController implements BaseController {
 
     @GetMapping("/user/{id}")
     public RestResponse<?> detail(@PathVariable Integer id) {
-        User user = userManager.detail(id);
+        User user = userManager.findById(id);
         return RestResponse.ok(user);
     }
 

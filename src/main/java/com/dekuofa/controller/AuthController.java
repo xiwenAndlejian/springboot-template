@@ -91,7 +91,7 @@ public class AuthController implements BaseController {
             return RestResponse.fail("token校验失败");
         }
         Integer userId = userInfo.getUserId();
-        User    user   = userManager.detail(userId);
+        User    user   = userManager.findById(userId);
         Collection<String> roles = roleManager.roles(userId)
                 .stream().map(SysRole::getName)
                 .collect(Collectors.toList());
