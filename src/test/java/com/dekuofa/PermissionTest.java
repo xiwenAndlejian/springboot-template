@@ -10,6 +10,8 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
+
 
 /**
  * @author dekuofa <br>
@@ -86,7 +88,7 @@ public class PermissionTest {
 
     @Test
     public void test_2() {
-        System.out.println(DateUtil.newUnixMilliSecond());
+        System.out.println(newUnixMilliSecond());
     }
 
 }
