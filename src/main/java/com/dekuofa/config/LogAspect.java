@@ -21,6 +21,8 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
+
 /**
  * @author dekuofa <br>
  * @date 2018-08-17 <br>
@@ -49,7 +51,7 @@ public class LogAspect {
             String action = getAction(method);
             SysLogInfo logInfo = new SysLogInfo(isSuccess(returning));
             logInfo.userInfo(userInfo).action(action)
-                    .createTime(DateUtil.newUnixMilliSecond());
+                    .createTime(newUnixMilliSecond());
             // todo 保存异常的参数
             logManager.save(logInfo);
         }
@@ -65,7 +67,7 @@ public class LogAspect {
             String action = getAction(method);
             SysLogInfo logInfo = SysLogInfo.fail().userInfo(userInfo)
                     .action(action)
-                    .createTime(DateUtil.newUnixMilliSecond());
+                    .createTime(newUnixMilliSecond());
             // todo 保存异常的参数
             logManager.save(logInfo);
 

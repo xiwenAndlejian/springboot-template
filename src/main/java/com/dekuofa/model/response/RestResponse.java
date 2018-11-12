@@ -3,6 +3,8 @@ package com.dekuofa.model.response;
 import com.dekuofa.utils.DateUtil;
 import lombok.Data;
 
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
+
 /**
  * @author dekuofa <br>
  * @date 2018-08-08 <br>
@@ -33,16 +35,16 @@ public class RestResponse<T> {
 
 
     public RestResponse() {
-        this.timestamp = DateUtil.newUnixMilliSecond();
+        this.timestamp = newUnixMilliSecond();
     }
 
     public RestResponse(boolean success) {
-        this.timestamp = DateUtil.newUnixMilliSecond();
+        this.timestamp = newUnixMilliSecond();
         this.success = success;
     }
 
     public RestResponse(boolean success, T payload) {
-        this.timestamp = DateUtil.newUnixMilliSecond();
+        this.timestamp = newUnixMilliSecond();
         this.payload = payload;
         this.success = success;
     }

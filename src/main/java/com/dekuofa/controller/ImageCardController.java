@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
+
 
 /**
  * @author dekuofa <br>
@@ -36,7 +38,7 @@ public class ImageCardController implements BaseController {
                                 @ApiParam(hidden = true) UserInfo userInfo) {
         ImageCard imageCard = new ImageCard(param);
         imageCard.setStatus(BaseStatus.INTI);
-        Long now = DateUtil.newUnixMilliSecond();
+        Long now = newUnixMilliSecond();
         imageCard.setCreateInfo(userInfo, now)
                 .setModifyInfo(userInfo, now);
         try {
@@ -77,7 +79,7 @@ public class ImageCardController implements BaseController {
                                   @Valid @RequestBody ImageCardParam param) {
         try {
             ImageCard imageCard = new ImageCard(param);
-            imageCard.setModifyInfo(userInfo, DateUtil.newUnixMilliSecond());
+            imageCard.setModifyInfo(userInfo, newUnixMilliSecond());
             imageCard.setId(id);
             imageCardManager.modify(imageCard);
 

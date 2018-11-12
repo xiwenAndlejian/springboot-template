@@ -6,7 +6,6 @@ import com.dekuofa.model.entity.User;
 
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.service.UserService;
-import com.dekuofa.utils.DateUtil;
 import io.github.biezhi.anima.enums.OrderBy;
 import io.github.biezhi.anima.page.Page;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import java.beans.Transient;
 
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
 import static io.github.biezhi.anima.Anima.save;
 import static io.github.biezhi.anima.Anima.select;
 import static io.github.biezhi.anima.Anima.update;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Transient
     @Override
-    public Integer addUser(User user, UserInfo userInfo) throws TipException {
+    public Integer addUser(User user) throws TipException {
         try {
             Integer id = save(user).asInt();
             if (null == id) {
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         update().from(User.class)
                 .where(User::getId).eq(userId)
                 .set(User::getPassword, newPasswd)
-                .set(User::getModifyTime, DateUtil.newUnixMilliSecond())
+                .set(User::getModifyTime, newUnixMilliSecond())
                 .set(User::getModifierId, userInfo.getUserId())
                 .set(User::getModifierName, userInfo.getNickName())
                 .execute();
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         update().from(User.class)
                 .where(User::getId).eq(userId)
                 .set(User::getAvatar, avatar)
-                .set(User::getModifyTime, DateUtil.newUnixMilliSecond())
+                .set(User::getModifyTime, newUnixMilliSecond())
                 .set(User::getModifierId, userInfo.getUserId())
                 .set(User::getModifierName, userInfo.getNickName())
                 .execute();
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     public void login(Integer userId, String ip) {
         update().from(User.class)
                 .set(User::getLastLoginIp, ip)
-                .set(User::getLastLoginTime, DateUtil.newUnixMilliSecond())
+                .set(User::getLastLoginTime, newUnixMilliSecond())
                 .where(User::getId).eq(userId)
                 .execute();
     }

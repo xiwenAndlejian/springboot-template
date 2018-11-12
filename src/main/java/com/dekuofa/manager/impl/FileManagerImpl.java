@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
+
 /**
  * @author dekuofa <br>
  * @date 2018-09-03 <br>
@@ -71,7 +73,7 @@ public class FileManagerImpl implements FileManager {
 
         FileInfo fileInfo =
                 new FileInfo(fileName, uuid, url, size, fileType, BaseStatus.NORMAL);
-        Long now = DateUtil.newUnixMilliSecond();
+        Long now = newUnixMilliSecond();
         fileInfo.setModifyInfo(userInfo, now)
                 .setCreateInfo(userInfo, now);
 

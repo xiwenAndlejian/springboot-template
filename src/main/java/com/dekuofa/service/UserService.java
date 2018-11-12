@@ -14,7 +14,7 @@ import io.github.biezhi.anima.page.Page;
 public interface UserService {
     User findByUsername(String username);
 
-    Integer addUser(User user, UserInfo userInfo) throws TipException;
+    Integer addUser(User user) throws TipException;
 
     void changePassword(Integer userId, String newPasswd, UserInfo userInfo) throws TipException;
 

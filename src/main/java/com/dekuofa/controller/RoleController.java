@@ -16,6 +16,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.Collection;
 
 import static com.dekuofa.utils.CommonValidator.validate;
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
 
 /**
  * @author dekuofa <br>
@@ -41,7 +42,7 @@ public class RoleController implements BaseController {
         if (roleManager.isExist(role)) {
             return RestResponse.fail("新增失败：角色名已存在");
         }
-        Long now = DateUtil.newUnixMilliSecond();
+        Long now = newUnixMilliSecond();
         role.setCreateInfo(userInfo, now).setModifyInfo(userInfo, now);
 
         Integer id = roleManager.addRole(role);
@@ -62,7 +63,7 @@ public class RoleController implements BaseController {
         if (roleManager.isExist(role)) {
             return RestResponse.fail("修改失败：角色名已存在");
         }
-        role.setModifyInfo(userInfo, DateUtil.newUnixMilliSecond());
+        role.setModifyInfo(userInfo, newUnixMilliSecond());
 
         role.setId(id);
         roleManager.modify(role);

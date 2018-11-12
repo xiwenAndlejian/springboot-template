@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
+
 /**
  * @author dekuofa <br>
  * @date 2018-09-04 <br>
@@ -36,7 +38,7 @@ public class ScrollImageController implements BaseController {
     @RequiresAuthentication
     @PostMapping("/scrollImage")
     public RestResponse<?> save(UserInfo userInfo, @Valid ScrollImageParam param) {
-        Long now = DateUtil.newUnixMilliSecond();
+        Long now = newUnixMilliSecond();
         ScrollImage image = new ScrollImage(param)
                 .setModifyInfo(userInfo, now).setCreateInfo(userInfo, now);
         image.setStatus(BaseStatus.NORMAL);
@@ -86,7 +88,7 @@ public class ScrollImageController implements BaseController {
 
         ScrollImage scrollImage = new ScrollImage(param);
         scrollImage.setId(id);
-        scrollImage.setModifyInfo(normalUserInfo, DateUtil.newUnixMilliSecond());
+        scrollImage.setModifyInfo(normalUserInfo, newUnixMilliSecond());
         try {
             scrollImageManager.modify(scrollImage);
             return RestResponse.ok();

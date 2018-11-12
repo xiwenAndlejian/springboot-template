@@ -4,6 +4,7 @@ package com.dekuofa.manager;
 import com.dekuofa.exception.TipException;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.User;
+import com.dekuofa.model.entity.UserDetail;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.param.PasswdParam;
 import io.github.biezhi.anima.page.Page;
@@ -30,7 +31,7 @@ public interface UserManager {
 
     Page<User> queryUser(String username, PageParam pageParam);
 
-    void updateUserInfo(User param, UserInfo userInfo) throws TipException;
+    void updateUserDetail(UserDetail userDetail, UserInfo userInfo) throws TipException;
 
     void changePassword(Integer userId, PasswdParam param, UserInfo userInfo) throws TipException;
 
@@ -42,6 +43,7 @@ public interface UserManager {
 
     void changeStatus(User user) throws TipException;
 
-    User detail(Integer userId);
+    User findById(Integer userId);
+    UserDetail detail(Integer userId);
 
 }
