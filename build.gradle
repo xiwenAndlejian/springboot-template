@@ -43,9 +43,10 @@ targetCompatibility = 1.8
 ext {
     jjwtVersion = "0.9.0"
     springVersion = "2.0.0.RELEASE"
-    lombokVersion = "1.16.18"
+    lombokVersion = "1.18.4"
     mysqlVersion = "5.1.47"
-    animaVersion = "0.2.5-SNAPSHOT"
+//    animaVersion = "0.2.5-SNAPSHOT"
+    animaVersion = "0.2.4"
     animaBetaVersion = "0.2.5-BETA"
     shiroVersion = "shiro-spring:1.4.0"
     thumbnailatorVersion = "0.4.8"
