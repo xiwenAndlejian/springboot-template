@@ -27,7 +27,7 @@ public interface UserManager {
      */
     void login(Integer userId, String ip);
 
-    Integer addUser(User user, UserInfo userInfo) throws TipException;
+    Integer addUser(User user, UserInfo userInfo, String[] roles) throws TipException;
 
     Page<User> queryUser(String username, PageParam pageParam);
 

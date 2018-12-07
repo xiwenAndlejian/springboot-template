@@ -1,14 +1,12 @@
 package com.dekuofa.controller;
 
 import com.dekuofa.manager.ImageCardManager;
-import com.dekuofa.model.NormalUserInfo;
 import com.dekuofa.model.UserInfo;
 import com.dekuofa.model.entity.ImageCard;
 import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.ImageCardParam;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.response.RestResponse;
-import com.dekuofa.utils.DateUtil;
 import io.github.biezhi.anima.page.Page;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,7 @@ public class ImageCardController implements BaseController {
     public RestResponse<?> save(@Valid @RequestBody ImageCardParam param,
                                 @ApiParam(hidden = true) UserInfo userInfo) {
         ImageCard imageCard = new ImageCard(param);
-        imageCard.setStatus(BaseStatus.INTI);
+        imageCard.setStatus(BaseStatus.INIT);
         Long now = newUnixMilliSecond();
         imageCard.setCreateInfo(userInfo, now)
                 .setModifyInfo(userInfo, now);

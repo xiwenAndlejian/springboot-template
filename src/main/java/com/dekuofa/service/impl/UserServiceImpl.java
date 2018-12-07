@@ -2,10 +2,14 @@ package com.dekuofa.service.impl;
 
 import com.dekuofa.exception.TipException;
 import com.dekuofa.model.UserInfo;
+import com.dekuofa.model.entity.SysRole;
 import com.dekuofa.model.entity.User;
 
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.service.UserService;
+import com.dekuofa.utils.DateUtil;
+import io.github.biezhi.anima.core.Joins;
+import io.github.biezhi.anima.core.functions.TypeFunction;
 import io.github.biezhi.anima.enums.OrderBy;
 import io.github.biezhi.anima.page.Page;
 import org.springframework.stereotype.Service;
@@ -101,7 +105,7 @@ public class UserServiceImpl implements UserService {
     public void login(Integer userId, String ip) {
         update().from(User.class)
                 .set(User::getLastLoginIp, ip)
-                .set(User::getLastLoginTime, newUnixMilliSecond())
+                .set("last_login_time", DateUtil.newUnixMilliSecond())
                 .where(User::getId).eq(userId)
                 .execute();
     }

@@ -10,6 +10,7 @@ import com.dekuofa.model.entity.UserDetail;
 import com.dekuofa.model.enums.Gender;
 import com.dekuofa.model.param.PageParam;
 import com.dekuofa.model.param.PasswdParam;
+import com.dekuofa.model.relation.UserRole;
 import com.dekuofa.service.PermissionService;
 import com.dekuofa.service.RoleService;
 import com.dekuofa.service.UserDetailService;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
+import java.util.List;
 
 import static com.dekuofa.utils.DateUtil.newUnixMilliSecond;
 import static io.github.biezhi.anima.Anima.atomic;
@@ -69,14 +71,17 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public Integer addUser(User user, UserInfo userInfo) throws TipException {
+    public Integer addUser(User user, UserInfo userInfo, String[] roles) throws TipException {
         // todo 校验
         if (userService.isExist(user.getUsername())) {
             throw new TipException("当前用户名已存在");
         }
+        // todo 获取角色id
         Long currentTime = newUnixMilliSecond();
         user.setModifyInfo(userInfo, currentTime)
                 .setCreateInfo(userInfo, currentTime);
+
+        List<Integer> rolesId = roleService.getRoleIds(roles);
 
         UserDetail userDetail = new UserDetail();
         userDetail.setModifyInfo(userInfo, currentTime)
@@ -88,6 +93,7 @@ public class UserManagerImpl implements UserManager {
             user.setId(userId);
             userDetail.setUserId(userId);
             userDetailService.save(userDetail);
+            roleService.addUserRoles(userId, rolesId);
         }).catchException(e -> {
             log.error("新增用户失败：任务回滚");
             e.printStackTrace();

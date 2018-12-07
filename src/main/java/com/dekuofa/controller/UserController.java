@@ -15,7 +15,6 @@ import com.dekuofa.model.param.PasswdParam;
 import com.dekuofa.model.param.UserDetailParam;
 import com.dekuofa.model.param.UserParam;
 import com.dekuofa.model.response.RestResponse;
-import com.dekuofa.utils.CommonValidator;
 import com.dekuofa.utils.ShaUtil;
 import io.github.biezhi.anima.page.Page;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -28,7 +27,10 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Set;
 
+import static com.dekuofa.constant.Constants.DEFAULT_USER_AVATAR;
+import static com.dekuofa.constant.Constants.INIT_PASSWD;
 import static com.dekuofa.utils.CommonKit.difference;
+import static com.dekuofa.utils.CommonValidator.validate;
 
 /**
  * @author dekuofa <br>
@@ -50,19 +52,19 @@ public class UserController implements BaseController {
     @SysLog(action = "新增用户")
     @RequiresAuthentication
     @PostMapping("/user")
-    public RestResponse<Integer> saveUser(@RequestBody @Valid UserParam userParam,
+    public RestResponse<Integer> saveUser(@RequestBody UserParam userParam,
                                           @ApiIgnore UserInfo userInfo) {
+        validate(userParam);
         User user = new User(userParam);
+        user.setPassword(INIT_PASSWD);
+        user.setAvatar(DEFAULT_USER_AVATAR);
         try {
             // 加密
             String password = ShaUtil.sha512Encode(user.getPassword());
             user.setPassword(password);
-            user.setStatus(BaseStatus.INTI);
+            user.setStatus(BaseStatus.INIT);
 
-            if (StringUtils.isEmpty(user.getAvatar())) {
-                user.setAvatar(Constants.DEFAULT_USER_AVATAR);
-            }
-            int id = userManager.addUser(user, userInfo);
+            int id = userManager.addUser(user, userInfo, userParam.getRoles());
             return RestResponse.ok(id);
         } catch (Exception e) {
             String msg = getErrorMessage(e);
@@ -107,7 +109,7 @@ public class UserController implements BaseController {
         if (!userInfo.isCurrentUser(id)) {
             return RestResponse.fail("不能修改其他用户的密码");
         }
-        CommonValidator.validate(param);
+        validate(param);
         try {
             userManager.changePassword(id, param, userInfo);
             return RestResponse.ok();
@@ -159,6 +161,7 @@ public class UserController implements BaseController {
         }
     }
 
+    // 用户查询
     @GetMapping("/user")
     public RestResponse<Page<User>> query(String username, PageParam pageParam) {
         return RestResponse
@@ -201,7 +204,7 @@ public class UserController implements BaseController {
         return RestResponse.ok();
     }
 
-    @PostMapping("/unique/user/username")
+    @GetMapping("/unique/user/username")
     public RestResponse<?> checkExist(@RequestParam("username") String username) {
         if (StringUtils.isEmpty(username)) {
             return RestResponse.fail("用户名不能为空");
@@ -210,7 +213,7 @@ public class UserController implements BaseController {
         user.setUsername(username);
         boolean isExist = userManager.isExist(user);
         if (isExist) {
-            return RestResponse.fail("用户名已存在").payload(username);
+            return RestResponse.ok("用户名：'" + username + "'已存在");
         }
         return RestResponse.ok();
     }

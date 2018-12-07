@@ -5,8 +5,10 @@ import com.dekuofa.exception.TipException;
 import com.dekuofa.exception.ValidateException;
 import com.dekuofa.model.param.PasswdParam;
 import com.dekuofa.model.param.SysRoleParam;
-import com.dekuofa.model.response.RestResponse;
+import com.dekuofa.model.param.UserParam;
 import org.springframework.util.StringUtils;
+
+import static com.dekuofa.constant.Constants.*;
 
 /**
  * @author dekuofa <br>
@@ -42,5 +44,28 @@ public class CommonValidator {
             throw new TipException("密码长度不能大于" + Constants.MIN_OF_PASSWD + "位");
         }
 
+    }
+
+    public static void validate(UserParam param) {
+        String    username = param.getUsername();
+        String    nickName = param.getNickName();
+        String[] roles    = param.getRoles();
+
+        if (StringUtils.isEmpty(username)) {
+            throw new TipException("用户名不能为空");
+        }
+        if (StringUtils.isEmpty(nickName)) {
+            throw new TipException("昵称不能为空");
+        }
+        if (roles.length < 1) {
+            throw new TipException("至少为用户分配一个角色");
+        }
+
+        if (username.length() > MAX_OF_USERNAME || username.length() < MIN_OF_USERNAME) {
+            throw new TipException("用户名长度：" + MIN_OF_USERNAME + " ~ " + MAX_OF_USERNAME);
+        }
+        if (nickName.length() > MAX_OF_NICK_NAME || nickName.length() < MIN_OF_NICK_NAME) {
+            throw new TipException("昵称长度：" + MIN_OF_NICK_NAME + " ~ " + MAX_OF_NICK_NAME);
+        }
     }
 }

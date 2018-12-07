@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static io.github.biezhi.anima.Anima.*;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author dekuofa <br>
@@ -42,6 +44,15 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Integer> getRoleIds(String[] roles) {
+        List<SysRole> roleList = select("id")
+                .from(SysRole.class)
+                .in(SysRole::getName, (Object[]) roles).all();
+
+        return roleList.stream().map(SysRole::getId).collect(toList());
+    }
+
+    @Override
     public void modify(SysRole role) {
         role.update();
     }
@@ -60,11 +71,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Integer> roleIds(Integer userId) {
-        return select()
-                .bySQL(Integer.class, "select role_id from user_role where user_id = ?", userId)
-                .all();
+    public void addUserRoles(Integer userId, List<Integer> roleIds) {
+        List<UserRole> userRoles = roleIds.stream()
+                .map(roleId -> new UserRole(userId, roleId))
+                .collect(toList());
+        saveBatch(userRoles);
     }
+
 
     @Transient
     @Override

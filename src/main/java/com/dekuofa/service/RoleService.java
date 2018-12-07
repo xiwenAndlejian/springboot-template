@@ -18,6 +18,7 @@ public interface RoleService {
     Set<SysRole> getRoles(Integer userId);
 
     Integer addRole(SysRole role);
+    List<Integer> getRoleIds(String[] roles);
 
     void modify(SysRole role);
 
@@ -25,7 +26,7 @@ public interface RoleService {
 
     boolean isExist(String roleName);
 
-    List<Integer> roleIds(Integer userId);
+    void addUserRoles(Integer userId, List<Integer> roleIds);
 
     void changeUserRoles(Integer userId, List<UserRole> addRoleIds, List<Integer> deleteIds);
 }

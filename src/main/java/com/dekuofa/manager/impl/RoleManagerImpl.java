@@ -58,7 +58,10 @@ public class RoleManagerImpl implements RoleManager {
 
     @Override
     public List<Integer> roleIds(Integer userId) {
-        return roleService.roleIds(userId);
+        return roleService.getRoles(userId)
+                .stream()
+                .map(SysRole::getId)
+                .collect(Collectors.toList());
     }
 
     @Override

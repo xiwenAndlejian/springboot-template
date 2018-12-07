@@ -4,10 +4,8 @@ import com.dekuofa.model.BaseEntity;
 import com.dekuofa.model.enums.BaseStatus;
 import com.dekuofa.model.param.UserParam;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.biezhi.anima.Model;
 import io.github.biezhi.anima.annotation.Column;
-import io.github.biezhi.anima.annotation.EnumMapping;
 import io.github.biezhi.anima.annotation.Ignore;
 import io.github.biezhi.anima.annotation.Table;
 import lombok.Data;
@@ -57,9 +55,13 @@ public class User extends Model implements BaseEntity {
 
     public User(UserParam userParam) {
         this.username = userParam.getUsername();
-        this.password = userParam.getPassword();
+//        this.password = userParam.getPassword();
         this.nickName = userParam.getNickName();
-        this.avatar = userParam.getAvatar();
+//        this.avatar = userParam.getAvatar();
+    }
+
+    public static int hello() {
+        return 1;
     }
 
 }

@@ -20,15 +20,21 @@ public interface Constants {
      * 最大用户名长度
      */
     int MAX_OF_USERNAME  = 30;
+    int MIN_OF_USERNAME  = 6;
     /**
      * 最大昵称长度
      */
     int MAX_OF_NICK_NAME = 30;
+    int MIN_OF_NICK_NAME = 4;
     /**
      * 最大密码长度
      */
     int MAX_OF_PASSWD    = 64;
     int MIN_OF_PASSWD    = 8;
+    /**
+     * init password
+     */
+    String INIT_PASSWD = "123456";
 
     /**
      * 默认分页页数大小
@@ -54,7 +60,7 @@ public interface Constants {
     /**
      * 默认头像地址
      */
-    String DEFAULT_USER_AVATAR = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
+    String DEFAULT_USER_AVATAR = "/user.png";
 
     /**
      * 手机号校验正则biaodashu

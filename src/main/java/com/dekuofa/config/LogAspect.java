@@ -73,6 +73,7 @@ public class LogAspect {
 
         }
         log.info("{}: exception cause: {}", getAction(method), e.getMessage());
+        e.printStackTrace();
     }
 
     private boolean isSuccess(Object returning) {

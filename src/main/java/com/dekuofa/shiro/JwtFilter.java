@@ -107,7 +107,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * 返回错误代码401
      */
     private void response401(ServletRequest req, ServletResponse resp) {
-        RestResponse restResponse = RestResponse.fail("校权失败，请登录后重试").code(401);
+        RestResponse restResponse = RestResponse.fail("校权失败，请登录后重试").code(200);
         writeJsonMessageToResp(resp, restResponse);
     }
 
@@ -115,7 +115,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * 返回校验异常
      */
     private void responseError(ServletRequest req, ServletResponse resp, Exception error) {
-        RestResponse restResponse = RestResponse.fail(error.getMessage()).code(500);
+        RestResponse restResponse = RestResponse.fail(error.getMessage()).code(200);
         writeJsonMessageToResp(resp, restResponse);
     }
 
